@@ -10,7 +10,7 @@ const AuthContextWrapper = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const nav = useNavigate();
 
-  const storeToken = (token) => { 
+  const storedToken = (token) => { 
     localStorage.setItem("authToken", token);
   }; // Added closing curly brace
 
@@ -47,7 +47,7 @@ const AuthContextWrapper = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        storeToken,
+        storedToken,
         handleLogout,
         currentUser,
         isLoading,

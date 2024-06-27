@@ -6,7 +6,7 @@ import UserRoutinePage from "./pages/UserRoutinePage/UserRoutinePage";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import HomePage from "./pages/HomePage/HomePage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/NavBar/NavBar";
 
 
 function App() {

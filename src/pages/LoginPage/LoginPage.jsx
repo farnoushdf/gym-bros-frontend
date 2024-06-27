@@ -7,9 +7,10 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const { storedToken, authenticateUser } = useContext(AuthContext);
 
   const nav = useNavigate();
-  const { authService, authenticateUser } = useContext(AuthContext);
+  
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -17,22 +18,22 @@ const LoginPage = () => {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     const requestBody = { email, password };
-
-    try {
-      const { data } = await axios.post("http://localhost:5005/auth/login", requestBody);
-      console.log("response from the login", data);
-      authService.storeToken(data.authToken);
-      await authenticateUser();
-      console.log("Login successful");
-      nav("/profile");
-    } catch (error) {
-      console.error("Error logging in", error);
-      setErrorMessage("Failed to log in. Please check your credentials.");
-    }
+    axios
+      .post("http://localhost:5005/auth/login", requestBody)
+      .then(({ data }) => {
+        console.log("response from the login", data);
+        storedToken(data.authToken);
+        return authenticateUser();
+      })
+      .then(() => {
+        console.log("all good with the login");
+        nav("/profile");
+      })
+      .catch((err) => console.log("error logging in", err));
   };
 
   return (
-    <div className="login-page">
+    <div className="LoginPage">
       <h1>Login</h1>
       <form onSubmit={handleLoginSubmit}>
         <label>Email:</label>
@@ -45,7 +46,7 @@ const LoginPage = () => {
       </form>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <Link to="/signup">Sign Up</Link>
+      <Link to={"/signup"}>Sign Up</Link>
     </div>
   );
 };

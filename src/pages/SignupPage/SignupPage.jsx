@@ -1,7 +1,7 @@
 import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authService from "../../services/auth.service";
+import axios from "axios";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -17,12 +17,12 @@ function SignupPage() {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    //const image = e.target.image.files[0];
-    //const formData = new FormData();
-    //formData.append("image", image);
-    //formData.append("username", username);
-    //formData.append("email", email);
-    //formData.append("password", password);
+    const image = e.target.image.files[0];
+    const formData = new FormData();
+    formData.append("imageUrl", image);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
 
     const useData = {
       username: username,
@@ -30,18 +30,26 @@ function SignupPage() {
       password: password,
     };
 
+
     try {
-      const response = await authService.signup(useData );
-      console.log("User signed up:", response.data);
+      await axios.post("http://localhost:5005/auth/signup", formData);
       nav("/login");
-    } catch (error) {
-      console.error("Error during sign up:", error);
-      if (error.response && error.response.data && error.response.data.errorMessage) {
-        setErrorMessage(error.response.data.errorMessage);
-      } else {
-        setErrorMessage("Something went wrong with the sign-up process.");
-      }
+    } catch (err) {
+      console.log(err);
     }
+
+    // try {
+    //   const response = await authService.signup(useData );
+    //   console.log("User signed up:", response.data);
+    //   nav("/login");
+    // } catch (error) {
+    //   console.error("Error during sign up:", error);
+    //   if (error.response && error.response.data && error.response.data.errorMessage) {
+    //     setErrorMessage(error.response.data.errorMessage);
+    //   } else {
+    //     setErrorMessage("Something went wrong with the sign-up process.");
+    //   }
+    // }
   };
 
   return (
