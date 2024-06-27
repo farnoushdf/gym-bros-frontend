@@ -1,5 +1,5 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation} from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
 import UserRoutinePage from "./pages/UserRoutinePage/UserRoutinePage";
@@ -10,9 +10,11 @@ import Navbar from "./components/Navbar/Navbar";
 
 
 function App() {
+  const location = useLocation();
+  const isLandingPage = location.pathname === "/";
   return (
     <>
-    <Navbar/>
+      {!isLandingPage && <Navbar />}
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<HomePage />} />
