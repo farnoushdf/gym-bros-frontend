@@ -1,7 +1,6 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import authService from "../services/authService"; // Adjust the path as per your project structure
 
 const AuthContext = createContext();
 
@@ -11,10 +10,17 @@ const AuthContextWrapper = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const nav = useNavigate();
 
+  const storeToken = (token) => { 
+    localStorage.setItem("authToken", token);
+  }; // Added closing curly brace
+
   const authenticateUser = async () => {
     const tokenFromLocalStorage = localStorage.getItem("authToken");
     try {
-      const { data } = await authService.verify();
+      const { data } = await axios.get("http://localhost:5005/auth/verify", {
+        headers: { authorization: `Bearer ${tokenFromLocalStorage}` },
+      }); // Added closing parenthesis and comma after URL string
+      console.log("verify ", data);
       setCurrentUser(data.user);
       setIsLoading(false);
       setIsLoggedIn(true);
@@ -41,7 +47,7 @@ const AuthContextWrapper = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        authService,
+        storeToken,
         handleLogout,
         currentUser,
         isLoading,

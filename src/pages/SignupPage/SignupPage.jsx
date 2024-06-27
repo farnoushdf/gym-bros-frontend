@@ -1,7 +1,7 @@
 import "./SignupPage.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authService from "../../sevices/auth.service";
+import authService from "../../services/auth.service";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -17,15 +17,21 @@ function SignupPage() {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
-    const image = e.target.image.files[0];
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("username", username);
-    formData.append("email", email);
-    formData.append("password", password);
+    //const image = e.target.image.files[0];
+    //const formData = new FormData();
+    //formData.append("image", image);
+    //formData.append("username", username);
+    //formData.append("email", email);
+    //formData.append("password", password);
+
+    const useData = {
+      username: username,
+      email: email,
+      password: password,
+    };
 
     try {
-      const response = await authService.signup(formData);
+      const response = await authService.signup(useData );
       console.log("User signed up:", response.data);
       nav("/login");
     } catch (error) {
