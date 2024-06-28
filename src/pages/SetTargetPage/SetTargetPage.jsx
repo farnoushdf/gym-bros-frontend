@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SetTargetPage = ({ setTargets }) => {
   const [formState, setFormState] = useState({
@@ -10,7 +11,7 @@ const SetTargetPage = ({ setTargets }) => {
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState({ ...formState, [name]: parseFloat(value) });
+    setFormState({ ...formState, [name]: parseFloat(value) || 0 });
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,7 +24,7 @@ const SetTargetPage = ({ setTargets }) => {
         {Object.keys(formState).map((key) => (
           <div key={key}>
             <label>
-              {key.charAt(0).toUpperCase() + key.slice(1)} (units):
+              {key.charAt(0).toUpperCase() + key.slice(1)}:
               <input
                 type="number"
                 name={key}
@@ -33,7 +34,9 @@ const SetTargetPage = ({ setTargets }) => {
             </label>
           </div>
         ))}
-        <button type="submit">Set Targets</button>
+        <Link to="/progress">
+          <button type="submit">Set Targets</button>
+        </Link>
       </form>
     </div>
   );

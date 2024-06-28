@@ -10,6 +10,7 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import Navbar from "./components/NavBar/NavBar";
 import ProgressPage from "./pages/ProgressPage/ProgressPage";
 import SetTargetPage from "./pages/SetTargetPage/SetTargetPage";
+import UpdateProgressPage from "./pages/UpdateProgressPage/UpdateProgressPage";
 
 function App() {
   const location = useLocation();
@@ -32,10 +33,12 @@ function App() {
   });
 
   const handleSetTargets = (newTargets) => {
+    console.log("new Trget:", newTargets);
     setTargets(newTargets);
   };
 
   const handleUpdateProgress = (newProgress) => {
+    console.log("new progress:", newProgress);
     setProgress((prevProgress) => ({
       ...prevProgress,
       ...newProgress,
@@ -59,6 +62,10 @@ function App() {
         <Route
           path="/set-targets"
           element={<SetTargetPage setTargets={handleSetTargets} />}
+        />
+        <Route
+          path="/update-progress"
+          element={<UpdateProgressPage updateProgress={handleUpdateProgress} />}
         />
       </Routes>
     </>
