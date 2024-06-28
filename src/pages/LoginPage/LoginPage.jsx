@@ -26,10 +26,13 @@ const LoginPage = () => {
         return authenticateUser();
       })
       .then(() => {
-        console.log("all good with the login");
+        console.log("Login successful");
         nav("/profile");
       })
-      .catch((err) => console.log("error logging in", err));
+      .catch((err) => {
+        console.log("Error logging in", err);
+        setErrorMessage("Failed to log in. Please check your credentials.");
+      });
   };
 
   return (
