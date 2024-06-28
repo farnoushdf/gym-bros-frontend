@@ -7,9 +7,8 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
   const nav = useNavigate();
-  const { authService, authenticateUser } = useContext(AuthContext);
+  const { storeToken, authenticateUser } = useContext(AuthContext);
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -18,17 +17,21 @@ const LoginPage = () => {
     e.preventDefault();
     const requestBody = { email, password };
 
-    try {
-      const { data } = await axios.post("http://localhost:5005/auth/login", requestBody);
-      console.log("response from the login", data);
-      authService.storeToken(data.authToken);
-      await authenticateUser();
-      console.log("Login successful");
-      nav("/profile");
-    } catch (error) {
-      console.error("Error logging in", error);
-      setErrorMessage("Failed to log in. Please check your credentials.");
-    }
+    axios
+      .post("http://localhost:5005/auth/login", requestBody)
+      .then(({ data }) => {
+        console.log("response from the login", data);
+        storeToken(data.authToken);
+        return authenticateUser();
+      })
+      .then(() => {
+        console.log("Login successful");
+        nav("/profile");
+      })
+      .catch((err) => {
+        console.log("Error logging in", err);
+        setErrorMessage("Failed to log in. Please check your credentials.");
+      });
   };
 
   return (

@@ -12,14 +12,14 @@ const AuthContextWrapper = ({ children }) => {
 
   const storeToken = (token) => { 
     localStorage.setItem("authToken", token);
-  }; // Added closing curly brace
+  }; 
 
   const authenticateUser = async () => {
     const tokenFromLocalStorage = localStorage.getItem("authToken");
     try {
       const { data } = await axios.get("http://localhost:5005/auth/verify", {
         headers: { authorization: `Bearer ${tokenFromLocalStorage}` },
-      }); // Added closing parenthesis and comma after URL string
+      }); 
       console.log("verify ", data);
       setCurrentUser(data.user);
       setIsLoading(false);

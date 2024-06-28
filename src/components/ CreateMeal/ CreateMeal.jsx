@@ -1,17 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
-import axios from "axios";
+import axios from 'axios';
 import { AuthContext } from '../../context/auth.context';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const DEFAULT_MEAL_FORM_VALUES = {
-  mealName: "",
-  description: "",
+  mealName: '',
+  description: '',
   calories: 0,
-  ingredients: "",
+  ingredients: '',
 };
 
-function CreateMeal({ setOpen }) {
+const CreateMeal = ({ setOpen }) => {
   const { user } = useContext(AuthContext);
   const [meal, setMeal] = useState({ ...DEFAULT_MEAL_FORM_VALUES });
   const [submitting, setSubmitting] = useState(false);
@@ -30,7 +30,15 @@ function CreateMeal({ setOpen }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const requestBody = { ...meal, ingredients: meal.ingredients.split(',').map(ingredient => ingredient.trim()), author: user._id };
+    if (!user || !user._id) {
+      console.error('User is not defined or does not have an _id');
+      return;
+    }
+    const requestBody = {
+      ...meal,
+      ingredients: meal.ingredients.split(',').map((ingredient) => ingredient.trim()),
+      author: user._id,
+    };
 
     setSubmitting(true);
 
@@ -102,16 +110,10 @@ function CreateMeal({ setOpen }) {
           </div>
 
           <div>
-            <button
-              type="submit"
-              disabled={submitting}
-            >
+            <button type="submit" disabled={submitting}>
               Save
             </button>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-            >
+            <button type="button" onClick={() => setOpen(false)}>
               Close
             </button>
           </div>
@@ -119,6 +121,6 @@ function CreateMeal({ setOpen }) {
       </div>
     </div>
   );
-}
+};
 
 export default CreateMeal;
