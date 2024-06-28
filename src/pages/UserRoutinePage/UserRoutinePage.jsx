@@ -3,8 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import CreateMeal from "../../components/ CreateMeal/ CreateMeal";
-import CreateExercise from "../../components/CreateExercise/CreateExcercise";
+import CreateMeal from "../../components/CreateMeal/CreateMeal";
+import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -12,7 +12,7 @@ const UserRoutinePage = () => {
   const [userRoutines, setUserRoutines] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCreateMeal, setShowCreateMeal] = useState(false);
-  const [showCreateExercise, setShowCreateExercise] = useState(false);
+  const [showCreateRoutine, setShowCreateRoutine] = useState(false);
 
   useEffect(() => {
     const fetchUserRoutines = async () => {
@@ -50,13 +50,13 @@ const UserRoutinePage = () => {
 
       <div className="routine-links">
         <button onClick={() => setShowCreateMeal(true)}>Add Meal</button>
-        <button onClick={() => setShowCreateExercise(true)}>Add Exercise</button>
+        <button onClick={() => setShowCreateRoutine(true)}>Add Exercise</button>
         <Link to="/meals">Manage Meals</Link>
         <Link to="/exercises">Manage Exercises</Link>
       </div>
 
       {showCreateMeal && <CreateMeal setOpen={setShowCreateMeal} />}
-      {showCreateExercise && <CreateExercise setOpen={setShowCreateExercise} />}
+      {showCreateRoutine && <CreateRoutine setOpen={setShowCreateRoutine} />}
     </div>
   );
 };

@@ -32,7 +32,7 @@ function SignupPage() {
 
 
     try {
-      await axios.post("http://localhost:5005/auth/signup", formData);
+      await axios.post("http://localhost:5005/auth/signup", formData, useData);
       nav("/login");
     } catch (err) {
       console.log(err);
