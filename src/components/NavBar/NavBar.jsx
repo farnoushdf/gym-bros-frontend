@@ -26,6 +26,9 @@ const Navbar = () => {
             <Link to="/profile">
               <button>Your Routine</button>
             </Link>
+            <Link to="/meals">
+              <button>Meals</button>
+            </Link>
 
           </>
         )}

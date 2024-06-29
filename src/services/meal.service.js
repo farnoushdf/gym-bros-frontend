@@ -23,7 +23,7 @@ const mealService = {
   fetchOneMeal: async (id) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(`${API_URL}/meals/one-meal/${id}`, {
+      const response = await axios.get(`${API_URL}/meals/one-meal/${mealId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +36,7 @@ const mealService = {
   deleteOneMeal: async (id) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.delete(`${API_URL}/meals/delete-meal/${id}`, {
+      const response = await axios.delete(`${API_URL}/meals/delete-meal/${mealId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -49,7 +49,7 @@ const mealService = {
   fetchUserMeals: async (userId) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(`${API_URL}/meals/user-meals/${userId}`, {
+      const response = await axios.get(`${API_URL}/meals/your-meal/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +76,7 @@ const mealService = {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axios.patch(
-        `${API_URL}/meals/update-meal/${id}`,
+        `${API_URL}/meals/update-meal/${mealId}`,
         mealData,
         {
           headers: {

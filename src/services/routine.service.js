@@ -1,3 +1,5 @@
+// routine.service.js
+
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,7 +17,7 @@ const routineService = {
           },
         }
       );
-      return response;
+      return response.data; 
     } catch (error) {
       throw error;
     }
@@ -28,9 +30,9 @@ const routineService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response;
+      return response.data;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   deleteOneRoutine: async (id) => {
@@ -41,22 +43,22 @@ const routineService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response;
+      return response.data;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   fetchUserRoutines: async (userId) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(`${API_URL}/routines/user-routines/${userId}`, {
+      const response = await axios.get(`${API_URL}/routines/user-routine/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response;
+      return response.data;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   fetchAllRoutines: async () => {
@@ -67,9 +69,9 @@ const routineService = {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response;
+      return response.data;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   updateRoutine: async (id, routineData) => {
@@ -85,9 +87,9 @@ const routineService = {
           },
         }
       );
-      return response;
+      return response.data;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
 };

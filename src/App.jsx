@@ -7,6 +7,7 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import HomePage from "./pages/HomePage/HomePage";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import Navbar from "./components/NavBar/NavBar";
+import MealListPage from "./pages/MealListPage/MealListPage";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<UserRoutinePage/>} />
+        <Route path="/meals" element={<MealListPage/>}/>
         <Route path="/signup" element={<SignupPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

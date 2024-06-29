@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
-import routineService  from '../../services/routine.service';
+import routineService from '../../services/routine.service';
 
 const CreateRoutine = ({ setOpen }) => {
   const { user } = useContext(AuthContext);
