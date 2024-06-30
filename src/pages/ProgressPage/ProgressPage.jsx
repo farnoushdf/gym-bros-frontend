@@ -15,7 +15,7 @@ const ProgressPage = ({targets, progress}) => {
         {categories.map((category) => (
             <div key={category}>
                 <h2>{category}</h2>
-                <CircularProgressbar value={calculatePercentage(progress[category], targets[category])}
+                <CircularProgressbar /*value={calculatePercentage(progress[category], targets[category])}*/ value={50}
             text={`${Math.round(calculatePercentage(progress[category], targets[category]))}%`}
             styles={buildStyles({
               textColor: '#000',
