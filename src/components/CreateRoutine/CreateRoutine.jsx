@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
 import routineService from '../../services/routine.service';
 
-const CreateRoutine = ({ setOpen }) => {
+const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
   const { user } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [workout, setWorkout] = useState('');
@@ -22,13 +22,14 @@ const CreateRoutine = ({ setOpen }) => {
       workout,
       bodyPart,
       totalDuration,
+      date: selectedDate.toISOString().split('T')[0], // Use the selected date here
     };
 
     try {
       setIsDisabled(true);
       const response = await routineService.createRoutine(newRoutine);
       if (response.status === 201) {
-        navigate('/profile');
+        onRoutineCreated(response.data);
         setOpen(false);
       }
     } catch (error) {

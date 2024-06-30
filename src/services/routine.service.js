@@ -8,7 +8,7 @@ const routineService = {
 
       const response = await axios.post(
         `${API_URL}/routines/create-routine`,
-        { ...routineData, userId }, // Include the user ID in the request body
+        { ...routineData, userId }, 
         {
           headers: {
             "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
 import mealService from '../../services/meal.service';
 
-const CreateMeal = ({ setOpen }) => {
+const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
   const { user } = useContext(AuthContext);
   const [name, setMealName] = useState('');
   const [description, setDescription] = useState('');
@@ -22,13 +22,14 @@ const CreateMeal = ({ setOpen }) => {
       description,
       calories: Number(calories),
       ingredients,
+      date: selectedDate.toISOString().split('T')[0],
     };
 
     try {
       setIsDisabled(true);
       const response = await mealService.createMeal(newMeal);
       if (response.status === 201) {
-        navigate('/profile');
+        onMealCreated(response.data);
         setOpen(false);
       }
     } catch (error) {

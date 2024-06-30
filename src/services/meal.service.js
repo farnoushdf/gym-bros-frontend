@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 const mealService = {
@@ -9,7 +8,7 @@ const mealService = {
 
       const response = await axios.post(
         `${API_URL}/meals/create-meal`,
-        { ...mealData, userId }, // Include the user ID in the request body
+        { ...mealData, userId }, 
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +31,7 @@ const mealService = {
       });
       return response;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   deleteOneMeal: async (id) => {
@@ -45,7 +44,7 @@ const mealService = {
       });
       return response;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   fetchUserMeals: async (userId) => {
@@ -58,7 +57,7 @@ const mealService = {
       });
       return response;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   fetchAllMeals: async () => {
@@ -71,7 +70,7 @@ const mealService = {
       });
       return response;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
   updateMeal: async (id, mealData) => {
@@ -89,7 +88,7 @@ const mealService = {
       );
       return response;
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   },
 };

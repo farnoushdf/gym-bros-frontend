@@ -21,7 +21,7 @@ const UserRoutinePage = () => {
       const fetchMeals = async () => {
         try {
           const mealsResponse = await mealService.fetchUserMeals(currentUser._id);
-          setMeals(mealsResponse.data || []);  
+          setMeals(mealsResponse.data || []);
         } catch (error) {
           console.error("Error fetching meals:", error);
         }
@@ -30,7 +30,7 @@ const UserRoutinePage = () => {
       const fetchRoutines = async () => {
         try {
           const routinesResponse = await routineService.fetchUserRoutines(currentUser._id);
-          setRoutines(routinesResponse.data || []);  
+          setRoutines(routinesResponse.data || []);
         } catch (error) {
           console.error("Error fetching routines:", error);
         }
@@ -53,12 +53,23 @@ const UserRoutinePage = () => {
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
   };
 
+  const filterEntriesByDate = (entries) => {
+    return entries.filter(entry => {
+      const entryDate = new Date(entry.date).toDateString();
+      const selectedDateString = selectedDate.toDateString();
+      return entryDate === selectedDateString;
+    });
+  };
+
+  const filteredMeals = filterEntriesByDate(meals);
+  const filteredRoutines = filterEntriesByDate(routines);
+
   if (isLoading) return <div>Loading...</div>;
   if (!currentUser) return <div>Please log in to view your routines.</div>;
 
   return (
     <div className="user-routine-page">
-      <h1>Your Routine </h1>
+      <h1>Your Routine</h1>
       <div className="calendar-container">
         <Calendar onChange={handleDateChange} value={selectedDate} />
       </div>
@@ -71,10 +82,10 @@ const UserRoutinePage = () => {
       </div>
 
       {showCreateMeal && (
-        <CreateMeal setOpen={setShowCreateMeal} onMealCreated={handleMealCreated} />
+        <CreateMeal setOpen={setShowCreateMeal} onMealCreated={handleMealCreated} selectedDate={selectedDate} />
       )}
       {showCreateRoutine && (
-        <CreateRoutine setOpen={setShowCreateRoutine} onRoutineCreated={handleRoutineCreated} />
+        <CreateRoutine setOpen={setShowCreateRoutine} onRoutineCreated={handleRoutineCreated} selectedDate={selectedDate} />
       )}
 
       <div className="user-entries">
@@ -82,18 +93,18 @@ const UserRoutinePage = () => {
         <div className="entries">
           <h3>Meals</h3>
           <ul>
-            {meals.length > 0 ? (
-              meals.map((meal) => <li key={meal._id}>{meal.name}</li>)
+            {filteredMeals.length > 0 ? (
+              filteredMeals.map((meal) => <li key={meal._id}>{meal.name}</li>)
             ) : (
-              <li>No meals available</li>
+              <p>No meals available</p>
             )}
           </ul>
           <h3>Routines</h3>
           <ul>
-            {routines.length > 0 ? (
-              routines.map((routine) => <li key={routine._id}>{routine.name}</li>)
+            {filteredRoutines.length > 0 ? (
+              filteredRoutines.map((routine) => <li key={routine._id}>{routine.name}</li>)
             ) : (
-              <li>No routines available</li>
+              <p>No routines available</p>
             )}
           </ul>
         </div>
