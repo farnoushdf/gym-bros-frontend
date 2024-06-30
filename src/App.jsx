@@ -12,6 +12,7 @@ import ProgressPage from "./pages/ProgressPage/ProgressPage";
 import SetTargetPage from "./pages/SetTargetPage/SetTargetPage";
 import UpdateProgressPage from "./pages/UpdateProgressPage/UpdateProgressPage";
 
+
 function App() {
   const location = useLocation();
   const isLandingPage = location.pathname === "/";
@@ -54,7 +55,6 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<UserRoutinePage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="*" element={<NotFoundPage />} />
         <Route
           path="/progress"
           element={<ProgressPage targets={targets} progress={progress} />}
@@ -67,7 +67,8 @@ function App() {
           path="/update-progress"
           element={<UpdateProgressPage updateProgress={handleUpdateProgress} />}
         />
-      </Routes>
+        <Route path="*" element={<NotFoundPage />} />
+        </Routes>
     </>
   );
 }

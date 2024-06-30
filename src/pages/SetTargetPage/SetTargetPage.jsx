@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SetTargetPage = ({ setTargets }) => {
+  const navigate = useNavigate();
+
   const [formState, setFormState] = useState({
     water: 0,
     weight: 0,
@@ -16,6 +18,8 @@ const SetTargetPage = ({ setTargets }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setTargets(formState);
+    console.log('formState ', formState);
+    navigate('/update-progress');
   };
   return (
     <div>
@@ -34,9 +38,9 @@ const SetTargetPage = ({ setTargets }) => {
             </label>
           </div>
         ))}
-        <Link to="/progress">
+        {/* <Link to="/progress"> */}
           <button type="submit">Set Targets</button>
-        </Link>
+        {/* </Link> */}
       </form>
     </div>
   );
