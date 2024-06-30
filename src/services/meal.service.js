@@ -1,13 +1,15 @@
 import axios from "axios";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const mealService = {
-  createMeal: async (mealData) => {
+  createMeal: async (mealData, userId) => {
     try {
       const token = localStorage.getItem("authToken");
+
       const response = await axios.post(
         `${API_URL}/meals/create-meal`,
-        mealData,
+        { ...mealData, userId }, // Include the user ID in the request body
         {
           headers: {
             "Content-Type": "application/json",
@@ -23,7 +25,7 @@ const mealService = {
   fetchOneMeal: async (id) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.get(`${API_URL}/meals/one-meal/${mealId}`, {
+      const response = await axios.get(`${API_URL}/meals/one-meal/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -36,7 +38,7 @@ const mealService = {
   deleteOneMeal: async (id) => {
     try {
       const token = localStorage.getItem("authToken");
-      const response = await axios.delete(`${API_URL}/meals/delete-meal/${mealId}`, {
+      const response = await axios.delete(`${API_URL}/meals/delete-meal/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -76,7 +78,7 @@ const mealService = {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axios.patch(
-        `${API_URL}/meals/update-meal/${mealId}`,
+        `${API_URL}/meals/update-meal/${id}`,
         mealData,
         {
           headers: {

@@ -8,8 +8,8 @@ import mealService from "../../services/meal.service";
 import { AuthContext } from "../../context/auth.context";
 import routineService from "../../services/routine.service";
 
-const UserRoutinePage = ({ userId }) => {
-  const { user } = useContext(AuthContext);
+const UserRoutinePage = () => {
+  const { currentUser, isLoading } = useContext(AuthContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCreateMeal, setShowCreateMeal] = useState(false);
   const [showCreateRoutine, setShowCreateRoutine] = useState(false);
@@ -17,27 +17,29 @@ const UserRoutinePage = ({ userId }) => {
   const [routines, setRoutines] = useState([]);
 
   useEffect(() => {
-    const fetchMeals = async () => {
-      try {
-        const mealsResponse = await mealService.fetchUserMeals(userId);
-        setMeals(mealsResponse.data);
-      } catch (error) {
-        console.error("Error fetching meals:", error);
-      }
-    };
+    if (!isLoading && currentUser) {
+      const fetchMeals = async () => {
+        try {
+          const mealsResponse = await mealService.fetchUserMeals(currentUser._id);
+          setMeals(mealsResponse.data || []);  
+        } catch (error) {
+          console.error("Error fetching meals:", error);
+        }
+      };
 
-    const fetchRoutines = async () => {
-      try {
-        const routinesResponse = await routineService.fetchUserRoutines(userId);
-        setRoutines(routinesResponse.data);
-      } catch (error) {
-        console.error("Error fetching routines:", error);
-      }
-    };
+      const fetchRoutines = async () => {
+        try {
+          const routinesResponse = await routineService.fetchUserRoutines(currentUser._id);
+          setRoutines(routinesResponse.data || []);  
+        } catch (error) {
+          console.error("Error fetching routines:", error);
+        }
+      };
 
-    fetchMeals();
-    fetchRoutines();
-  }, [userId]);
+      fetchMeals();
+      fetchRoutines();
+    }
+  }, [isLoading, currentUser]);
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -51,9 +53,12 @@ const UserRoutinePage = ({ userId }) => {
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
   };
 
+  if (isLoading) return <div>Loading...</div>;
+  if (!currentUser) return <div>Please log in to view your routines.</div>;
+
   return (
     <div className="user-routine-page">
-      <h1>User Routine Page</h1>
+      <h1>Your Routine </h1>
       <div className="calendar-container">
         <Calendar onChange={handleDateChange} value={selectedDate} />
       </div>
@@ -75,19 +80,21 @@ const UserRoutinePage = ({ userId }) => {
       <div className="user-entries">
         <h2>Meals and Routines for {selectedDate.toDateString()}</h2>
         <div className="entries">
-          <h3>Meals:</h3>
+          <h3>Meals</h3>
           <ul>
-            {meals.map((meal) => (
-              <li key={meal._id}>{meal.name}</li>
-            ))}
+            {meals.length > 0 ? (
+              meals.map((meal) => <li key={meal._id}>{meal.name}</li>)
+            ) : (
+              <li>No meals available</li>
+            )}
           </ul>
-          <h3>Routines:</h3>
+          <h3>Routines</h3>
           <ul>
-            {routines.map((routine) => (
-              <li key={routine._id}>
-                <Link to={`/routines/${routine._id}`}>{routine.name}</Link>
-              </li>
-            ))}
+            {routines.length > 0 ? (
+              routines.map((routine) => <li key={routine._id}>{routine.name}</li>)
+            ) : (
+              <li>No routines available</li>
+            )}
           </ul>
         </div>
       </div>

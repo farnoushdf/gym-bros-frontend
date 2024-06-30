@@ -1,15 +1,14 @@
-// routine.service.js
-
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const routineService = {
-  createRoutine: async (routineData) => {
+  createRoutine: async (routineData, userId) => {
     try {
       const token = localStorage.getItem("authToken");
+
       const response = await axios.post(
         `${API_URL}/routines/create-routine`,
-        routineData,
+        { ...routineData, userId }, // Include the user ID in the request body
         {
           headers: {
             "Content-Type": "application/json",
@@ -22,6 +21,7 @@ const routineService = {
       throw error;
     }
   },
+
   fetchOneRoutine: async (id) => {
     try {
       const token = localStorage.getItem("authToken");

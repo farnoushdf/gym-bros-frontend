@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../../context/auth.context';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,8 +26,7 @@ const MealListPage = () => {
         };
 
         fetchMeals();
-
-    }, []); 
+    }, []);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -42,7 +41,9 @@ const MealListPage = () => {
             <h1>Meal List</h1>
             <ul>
                 {meals.map(meal => (
-                    <p key={meal._id}>{meal.name}</p>
+                    <p key={meal._id}>
+                        <Link to={`/meals/${meal._id}`}>{meal.name}</Link>
+                    </p>
                 ))}
             </ul>
         </div>

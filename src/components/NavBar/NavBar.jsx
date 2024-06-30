@@ -14,7 +14,18 @@ const Navbar = () => {
         </Link>
 
         {currentUser ? (
-          <button onClick={handleLogout}>Logout</button>
+          <>
+            <button onClick={handleLogout}>Logout</button>
+            <Link to="/profile">
+              <button>Your Routine</button>
+            </Link>
+            <Link to="/meals">
+              <button>Meals</button>
+            </Link>
+            <Link to="/workouts">
+              <button>Workouts</button> 
+            </Link>
+          </>
         ) : (
           <>
             <Link to="/signup">
@@ -23,13 +34,6 @@ const Navbar = () => {
             <Link to="/login">
               <button>Login</button>
             </Link>
-            <Link to="/profile">
-              <button>Your Routine</button>
-            </Link>
-            <Link to="/meals">
-              <button>Meals</button>
-            </Link>
-
           </>
         )}
       </nav>
@@ -38,4 +42,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
