@@ -6,13 +6,15 @@ const MealDetailsPage = () => {
     const { id } = useParams();
     const [meal, setMeal] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null); // Define state for error
 
     useEffect(() => {
         const fetchMealDetails = async () => {
             try {
                 const response = await mealService.fetchOneMeal(id);
                 setMeal(response.data);
-                setError(`Error fetching meal details: ${error.message}`);
+            } catch (error) {
+                setError(`Error fetching meal details: ${error.message}`); // Correctly catch and set error here
             } finally {
                 setLoading(false);
             }
@@ -23,6 +25,10 @@ const MealDetailsPage = () => {
 
     if (loading) {
         return <p>Loading...</p>;
+    }
+
+    if (error) { // Display error if there is one
+        return <p>{error}</p>;
     }
 
     if (!meal) {

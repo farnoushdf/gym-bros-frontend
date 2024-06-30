@@ -33,7 +33,7 @@ const WorkoutDetailsPage = () => {
   return (
     <div className="workout-details">
       <h1>{workout.name}</h1>
-      <p>Workout: {workout._id}</p>
+      <p>Workout: {workout.workout}</p>
       <p>Body Part: {workout.bodyPart}</p>
       <p>Total Duration: {workout.totalDuration} minutes</p>
     </div>
