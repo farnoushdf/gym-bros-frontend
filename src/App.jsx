@@ -117,11 +117,6 @@ function App() {
           }
         />
 
-
-
-
-
-
         <Route path="/signup" element={<SignupPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
