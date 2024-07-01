@@ -18,7 +18,6 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
     event.preventDefault();
   
 
-
     if (!name || !workout || !bodyPart || !totalDuration) {
       setErrorMessage('All fields are required');
       return;
@@ -28,9 +27,7 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
       setErrorMessage('Total duration must be a positive number');
       return;
     }
-
     //console.log(currentUser)
-
     const newRoutine = {
       name,
       workout,
@@ -111,7 +108,7 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
             />
           </div>
 
-          {/*<div>
+          <div>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <button type="submit" disabled={isDisabled}>
               Save
@@ -119,8 +116,8 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
             <button type="button" onClick={() => setOpen(false)}>
               Close
             </button>
-          </div>*/}
-          <button>testttt</button>
+          </div>
+         
         </form>
       </div>
     </div>

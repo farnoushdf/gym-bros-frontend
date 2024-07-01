@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/auth.context';
 import mealService from '../../services/meal.service';
 
 const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
-  const { user } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [name, setMealName] = useState('');
   const [description, setDescription] = useState('');
   const [calories, setCalories] = useState('');
@@ -27,11 +27,11 @@ const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
 
     try {
       setIsDisabled(true);
-      const response = await mealService.createMeal(newMeal);
-      if (response.status === 201) {
+      const response = await mealService.createMeal(newMeal, currentUser._id);
+      //if (response.status === 201) {
         onMealCreated(response.data);
         setOpen(false);
-      }
+      //}
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Error creating meal');
       console.log(error);

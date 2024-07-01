@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import CreateMeal from "../../components/CreateMeal/CreateMeal";
-import mealService from "../../services/meal.service";
+import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
 import { AuthContext } from "../../context/auth.context";
 import routineService from "../../services/routine.service";
-import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -17,43 +16,25 @@ const UserRoutinePage = () => {
   const [showCreateRoutine, setShowCreateRoutine] = useState(false);
   const [meals, setMeals] = useState([]);
   const [routines, setRoutines] = useState([]);
+  const [editRoutineId, setEditRoutineId] = useState(null); 
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken")
-    const getCurrUser = async() => {
-      try { 
-        const { data } = await axios.get(`${API_URL}/auth/profile`,{ headers: {authorization:`Bearer ${token}`  }})
-        console.log(data);
-        setRoutines(data.currentRoutine)
+    const token = localStorage.getItem("authToken");
 
-      } 
-      catch (error) {
-
+    const fetchUserDetails = async () => {
+      try {
+        const { data } = await axios.get(`${API_URL}/auth/profile`, {
+          headers: { authorization: `Bearer ${token}` },
+        });
+        setRoutines(data.currentRoutine);
+        setMeals(data.currentMeal);
+      } catch (error) {
+        console.error("Error fetching user details:", error);
       }
-    }
+    };
+
     if (!isLoading && currentUser) {
-      const fetchMeals = async () => {
-        try {
-          const mealsResponse = await mealService.fetchUserMeals(currentUser._id);
-          setMeals(mealsResponse.data || []);
-        } catch (error) {
-          console.error("Error fetching meals:", error);
-        }
-      };
-
-      const fetchRoutines = async () => {
-        try {
-          const routinesResponse = await routineService.fetchUserRoutines(currentUser._id);
-          setRoutines(routinesResponse.data || []);
-        } catch (error) {
-          console.error("Error fetching routines:", error);
-        }
-      };
-
-      getCurrUser();
-
-      //fetchMeals();
-      //fetchRoutines();
+      fetchUserDetails();
     }
   }, [isLoading, currentUser]);
 
@@ -69,8 +50,24 @@ const UserRoutinePage = () => {
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
   };
 
+  const handleEditRoutine = (routineId) => {
+    setEditRoutineId(routineId);
+  };
+
+  const handleCancelEdit = () => {
+    setEditRoutineId(null);
+  };
+
+  const handleRoutineUpdated = (updatedRoutine) => {
+    const updatedRoutines = routines.map((routine) =>
+      routine._id === updatedRoutine._id ? updatedRoutine : routine
+    );
+    setRoutines(updatedRoutines);
+    setEditRoutineId(null);
+  };
+
   const filterEntriesByDate = (entries) => {
-    return entries.filter(entry => {
+    return entries.filter((entry) => {
       const entryDate = new Date(entry.date).toDateString();
       const selectedDateString = selectedDate.toDateString();
       return entryDate === selectedDateString;
@@ -98,10 +95,18 @@ const UserRoutinePage = () => {
       </div>
 
       {showCreateMeal && (
-        <CreateMeal setOpen={setShowCreateMeal} onMealCreated={handleMealCreated} selectedDate={selectedDate} />
+        <CreateMeal
+          setOpen={setShowCreateMeal}
+          onMealCreated={handleMealCreated}
+          selectedDate={selectedDate}
+        />
       )}
       {showCreateRoutine && (
-       <CreateRoutine setOpen={setShowCreateRoutine} onRoutineCreated={handleRoutineCreated} selectedDate={selectedDate} />
+        <CreateRoutine
+          setOpen={setShowCreateRoutine}
+          onRoutineCreated={handleRoutineCreated}
+          selectedDate={selectedDate}
+        />
       )}
 
       <div className="user-entries">
@@ -118,14 +123,109 @@ const UserRoutinePage = () => {
           <h3>Routines</h3>
           <ul>
             {filteredRoutines.length > 0 ? (
-              filteredRoutines.map((routine) => <li key={routine._id}>{routine.name}</li>)
+              filteredRoutines.map((routine) => (
+                <li key={routine._id}>
+                  {routine.name}{" "}
+                  <button onClick={() => handleEditRoutine(routine._id)}>
+                    Edit
+                  </button>
+                </li>
+              ))
             ) : (
               <p>No routines available</p>
             )}
           </ul>
         </div>
       </div>
+
+      {editRoutineId && (
+        <div className="edit-routine-form">
+          <h2>Edit Routine</h2>
+          <EditRoutineForm
+            routineId={editRoutineId}
+            onCancel={handleCancelEdit}
+            onRoutineUpdated={handleRoutineUpdated}
+          />
+        </div>
+      )}
     </div>
+  );
+};
+
+const EditRoutineForm = ({ routineId, onCancel, onRoutineUpdated }) => {
+  const [name, setName] = useState('');
+  const [workout, setWorkout] = useState('');
+  const [bodyPart, setBodyPart] = useState('');
+  const [totalDuration, setTotalDuration] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  useEffect(() => {
+    const fetchRoutineDetails = async () => {
+      try {
+        const response = await routineService.fetchOneRoutine(routineId);
+        const { name, workout, bodyPart, totalDuration } = response;
+        setName(name);
+        setWorkout(workout);
+        setBodyPart(bodyPart);
+        setTotalDuration(totalDuration);
+      } catch (error) {
+        console.error('Error fetching routine details:', error);
+        setErrorMessage('Error fetching routine details');
+      }
+    };
+
+    fetchRoutineDetails();
+  }, [routineId]);
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+
+    const updatedRoutine = {
+      name,
+      workout,
+      bodyPart,
+      totalDuration,
+    };
+
+    try {
+      const response = await routineService.updateRoutine(routineId, updatedRoutine);
+      onRoutineUpdated(response); 
+    } catch (error) {
+      console.error('Error updating routine:', error);
+      setErrorMessage('Error updating routine');
+    }
+  };
+
+  return (
+    <form onSubmit={handleUpdate}>
+      <label>Routine Name:</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label>Workout:</label>
+      <input
+        type="text"
+        value={workout}
+        onChange={(e) => setWorkout(e.target.value)}
+      />
+      <label>Body Part:</label>
+      <input
+        type="text"
+        value={bodyPart}
+        onChange={(e) => setBodyPart(e.target.value)}
+      />
+      <label>Total Duration:</label>
+      <input
+        type="number"
+        value={totalDuration}
+        onChange={(e) => setTotalDuration(e.target.value)}
+      />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <button type="submit">Update Routine</button>
+      <button type="button" onClick={onCancel}>Cancel</button>
+    </form>
   );
 };
 
