@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import CreateMeal from "../../components/CreateMeal/CreateMeal";
-import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
 import mealService from "../../services/meal.service";
 import { AuthContext } from "../../context/auth.context";
 import routineService from "../../services/routine.service";
+import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const UserRoutinePage = () => {
   const { currentUser, isLoading } = useContext(AuthContext);
@@ -17,6 +19,18 @@ const UserRoutinePage = () => {
   const [routines, setRoutines] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("authToken")
+    const getCurrUser = async() => {
+      try { 
+        const { data } = await axios.get(`${API_URL}/auth/profile`,{ headers: {authorization:`Bearer ${token}`  }})
+        console.log(data);
+        setRoutines(data.currentRoutine)
+
+      } 
+      catch (error) {
+
+      }
+    }
     if (!isLoading && currentUser) {
       const fetchMeals = async () => {
         try {
@@ -36,8 +50,10 @@ const UserRoutinePage = () => {
         }
       };
 
-      fetchMeals();
-      fetchRoutines();
+      getCurrUser();
+
+      //fetchMeals();
+      //fetchRoutines();
     }
   }, [isLoading, currentUser]);
 
@@ -85,7 +101,7 @@ const UserRoutinePage = () => {
         <CreateMeal setOpen={setShowCreateMeal} onMealCreated={handleMealCreated} selectedDate={selectedDate} />
       )}
       {showCreateRoutine && (
-        <CreateRoutine setOpen={setShowCreateRoutine} onRoutineCreated={handleRoutineCreated} selectedDate={selectedDate} />
+       <CreateRoutine setOpen={setShowCreateRoutine} onRoutineCreated={handleRoutineCreated} selectedDate={selectedDate} />
       )}
 
       <div className="user-entries">

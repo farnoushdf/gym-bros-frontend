@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/auth.context';
 import routineService from '../../services/routine.service';
 
 const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
-  const { user } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
   const [name, setName] = useState('');
   const [workout, setWorkout] = useState('');
   const [bodyPart, setBodyPart] = useState('');
@@ -16,25 +16,43 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+  
+
+
+    if (!name || !workout || !bodyPart || !totalDuration) {
+      setErrorMessage('All fields are required');
+      return;
+    }
+
+    if (totalDuration <= 0) {
+      setErrorMessage('Total duration must be a positive number');
+      return;
+    }
+
+    //console.log(currentUser)
 
     const newRoutine = {
       name,
       workout,
       bodyPart,
       totalDuration,
-      date: selectedDate.toISOString().split('T')[0], // Use the selected date here
+      date: selectedDate.toISOString().split('T')[0],
+      //userId: currentUser._id
     };
+    console.log(newRoutine);
 
     try {
       setIsDisabled(true);
-      const response = await routineService.createRoutine(newRoutine);
-      if (response.status === 201) {
-        onRoutineCreated(response.data);
+      const response = await routineService.createRoutine(newRoutine, currentUser._id);
+      console.log(response);
+
+      //if (response.status === 201) {
+        onRoutineCreated(response);
         setOpen(false);
-      }
+      //}
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Error creating routine');
-      console.log(error);
+      console.error(error);
     } finally {
       setIsDisabled(false);
     }
@@ -93,15 +111,16 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
             />
           </div>
 
-          <div>
-            <p className="error-message">{errorMessage && errorMessage}</p>
+          {/*<div>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <button type="submit" disabled={isDisabled}>
               Save
             </button>
             <button type="button" onClick={() => setOpen(false)}>
               Close
             </button>
-          </div>
+          </div>*/}
+          <button>testttt</button>
         </form>
       </div>
     </div>
