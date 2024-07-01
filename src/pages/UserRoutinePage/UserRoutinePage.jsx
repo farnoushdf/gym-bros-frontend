@@ -6,6 +6,8 @@ import CreateMeal from "../../components/CreateMeal/CreateMeal";
 import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
 import { AuthContext } from "../../context/auth.context";
 import routineService from "../../services/routine.service";
+import EditMeal from "../../components/EditMeal/EditMeal";
+import EditRoutine from "../../components/EditRoutine/EditRoutine";
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,7 +18,8 @@ const UserRoutinePage = () => {
   const [showCreateRoutine, setShowCreateRoutine] = useState(false);
   const [meals, setMeals] = useState([]);
   const [routines, setRoutines] = useState([]);
-  const [editRoutineId, setEditRoutineId] = useState(null); 
+  const [editRoutineId, setEditRoutineId] = useState(null);
+  const [editMealId, setEditMealId] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -54,9 +57,26 @@ const UserRoutinePage = () => {
     setEditRoutineId(routineId);
   };
 
+  const handleEditMeal = (mealId) => { 
+    setEditMealId(mealId);
+  };
+
   const handleCancelEdit = () => {
     setEditRoutineId(null);
   };
+
+  const handleCancelEditMeal = () => { 
+    setEditMealId(null);
+  };
+
+  const handleMealUpdated = (updatedMeal) => {
+    const updatedMeals = meals.map((meal) =>
+      meal._id === updatedMeal._id ? updatedMeal : meal
+    );
+    setMeals(updatedMeals);
+    setEditMealId(null);
+  };
+
 
   const handleRoutineUpdated = (updatedRoutine) => {
     const updatedRoutines = routines.map((routine) =>
@@ -115,7 +135,13 @@ const UserRoutinePage = () => {
           <h3>Meals</h3>
           <ul>
             {filteredMeals.length > 0 ? (
-              filteredMeals.map((meal) => <li key={meal._id}>{meal.name}</li>)
+              filteredMeals.map((meal) => 
+              <li key={meal._id}>
+                {meal.name}
+                  <button onClick={() => handleEditMeal(meal._id)}>
+                    Edit
+                  </button> 
+                </li>)
             ) : (
               <p>No meals available</p>
             )}
@@ -137,95 +163,27 @@ const UserRoutinePage = () => {
           </ul>
         </div>
       </div>
-
       {editRoutineId && (
         <div className="edit-routine-form">
           <h2>Edit Routine</h2>
-          <EditRoutineForm
+          <EditRoutine
             routineId={editRoutineId}
             onCancel={handleCancelEdit}
             onRoutineUpdated={handleRoutineUpdated}
           />
         </div>
       )}
+      {editMealId && (
+        <div className="edit-meal-form">
+          <h2>Edit Meal</h2>
+          <EditMeal
+            mealId={editMealId}
+            onCancel={handleCancelEditMeal}
+            onMealUpdated={handleMealUpdated}
+          />
+        </div>
+      )}
     </div>
-  );
-};
-
-const EditRoutineForm = ({ routineId, onCancel, onRoutineUpdated }) => {
-  const [name, setName] = useState('');
-  const [workout, setWorkout] = useState('');
-  const [bodyPart, setBodyPart] = useState('');
-  const [totalDuration, setTotalDuration] = useState('');
-  const [errorMessage, setErrorMessage] = useState(null);
-
-  useEffect(() => {
-    const fetchRoutineDetails = async () => {
-      try {
-        const response = await routineService.fetchOneRoutine(routineId);
-        const { name, workout, bodyPart, totalDuration } = response;
-        setName(name);
-        setWorkout(workout);
-        setBodyPart(bodyPart);
-        setTotalDuration(totalDuration);
-      } catch (error) {
-        console.error('Error fetching routine details:', error);
-        setErrorMessage('Error fetching routine details');
-      }
-    };
-
-    fetchRoutineDetails();
-  }, [routineId]);
-
-  const handleUpdate = async (event) => {
-    event.preventDefault();
-
-    const updatedRoutine = {
-      name,
-      workout,
-      bodyPart,
-      totalDuration,
-    };
-
-    try {
-      const response = await routineService.updateRoutine(routineId, updatedRoutine);
-      onRoutineUpdated(response); 
-    } catch (error) {
-      console.error('Error updating routine:', error);
-      setErrorMessage('Error updating routine');
-    }
-  };
-
-  return (
-    <form onSubmit={handleUpdate}>
-      <label>Routine Name:</label>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <label>Workout:</label>
-      <input
-        type="text"
-        value={workout}
-        onChange={(e) => setWorkout(e.target.value)}
-      />
-      <label>Body Part:</label>
-      <input
-        type="text"
-        value={bodyPart}
-        onChange={(e) => setBodyPart(e.target.value)}
-      />
-      <label>Total Duration:</label>
-      <input
-        type="number"
-        value={totalDuration}
-        onChange={(e) => setTotalDuration(e.target.value)}
-      />
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <button type="submit">Update Routine</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
-    </form>
   );
 };
 

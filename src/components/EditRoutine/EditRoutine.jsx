@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-const API_URL = import.meta.env.VITE_API_URL;
+import routineService from '../../services/routine.service';
 
-const EditRoutine = () => {
-  const { id } = useParams();
+const EditRoutine = ({ routineId, onCancel, onRoutineUpdated }) => {
   const [name, setName] = useState('');
   const [workout, setWorkout] = useState('');
   const [bodyPart, setBodyPart] = useState('');
   const [totalDuration, setTotalDuration] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
-  const [routine, setRoutine] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const getRoutine = async () => {
+    const fetchRoutineDetails = async () => {
       try {
-        const response = await axios.get(`${API_URL}/routines/one-routine/${id}`);
-        const oneRoutine = response.data;
-        setRoutine(oneRoutine);
-        setName(oneRoutine.name);
-        setWorkout(oneRoutine.workout);
-        setBodyPart(oneRoutine.bodyPart);
-        setTotalDuration(oneRoutine.totalDuration);
+        const response = await routineService.fetchOneRoutine(routineId);
+        const { name, workout, bodyPart, totalDuration } = response; 
+        setName(name);
+        setWorkout(workout);
+        setBodyPart(bodyPart);
+        setTotalDuration(totalDuration);
       } catch (error) {
-        console.log('Error fetching routine:', error);
-        setErrorMessage('Error fetching routine');
+        console.error('Error fetching routine details:', error);
+        setErrorMessage('Error fetching routine details');
       }
     };
 
-    getRoutine();
-  }, [id]);
+    fetchRoutineDetails();
+  }, [routineId]);
 
   const handleUpdate = async (event) => {
     event.preventDefault();
@@ -43,48 +37,44 @@ const EditRoutine = () => {
     };
 
     try {
-      const response = await axios.patch(`${API_URL}/routines/update-routine/${id}`, updatedRoutine);
-      navigate(`/workouts/${id}`); 
+      const response = await routineService.updateRoutine(routineId, updatedRoutine);
+      onRoutineUpdated(response); 
     } catch (error) {
       console.error('Error updating routine:', error);
       setErrorMessage('Error updating routine');
     }
   };
 
-  if (!routine) return <div>Loading...</div>;
-
   return (
-    <div>
-      <h2>Edit Routine</h2>
-      <form onSubmit={handleUpdate}>
-        <label>Routine Name:</label>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <label>Workout:</label>
-        <input
-          type="text"
-          value={workout}
-          onChange={(e) => setWorkout(e.target.value)}
-        />
-        <label>Body Part:</label>
-        <input
-          type="text"
-          value={bodyPart}
-          onChange={(e) => setBodyPart(e.target.value)}
-        />
-        <label>Total Duration:</label>
-        <input
-          type="number"
-          value={totalDuration}
-          onChange={(e) => setTotalDuration(e.target.value)}
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">Update Routine</button>
-      </form>
-    </div>
+    <form onSubmit={handleUpdate}>
+      <label>Routine Name:</label>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label>Workout:</label>
+      <input
+        type="text"
+        value={workout}
+        onChange={(e) => setWorkout(e.target.value)}
+      />
+      <label>Body Part:</label>
+      <input
+        type="text"
+        value={bodyPart}
+        onChange={(e) => setBodyPart(e.target.value)}
+      />
+      <label>Total Duration:</label>
+      <input
+        type="number"
+        value={totalDuration}
+        onChange={(e) => setTotalDuration(e.target.value)}
+      />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <button type="submit">Update Routine</button>
+      <button type="button" onClick={onCancel}>Cancel</button>
+    </form>
   );
 };
 
