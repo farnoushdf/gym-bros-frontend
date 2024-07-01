@@ -77,13 +77,34 @@ const UserRoutinePage = () => {
     setEditMealId(null);
   };
 
-
   const handleRoutineUpdated = (updatedRoutine) => {
     const updatedRoutines = routines.map((routine) =>
       routine._id === updatedRoutine._id ? updatedRoutine : routine
     );
     setRoutines(updatedRoutines);
     setEditRoutineId(null);
+  };
+
+  const handleDeleteMeal = async (mealId) => {
+    try {
+      await axios.delete(`${API_URL}/meals/delete-meal/${mealId}`);
+      setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
+    } catch (error) {
+      console.error("Error deleting meal:", error);
+      // Handle error, show error message, etc.
+    }
+  };
+
+  const handleDeleteRoutine = async (routineId) => {
+    try {
+      await axios.delete(`${API_URL}/routines/delete-routine/${routineId}`);
+      setRoutines((prevRoutines) =>
+        prevRoutines.filter((routine) => routine._id !== routineId)
+      );
+    } catch (error) {
+      console.error("Error deleting routine:", error);
+      // Handle error, show error message, etc.
+    }
   };
 
   const filterEntriesByDate = (entries) => {
@@ -136,12 +157,12 @@ const UserRoutinePage = () => {
           <ul>
             {filteredMeals.length > 0 ? (
               filteredMeals.map((meal) => 
-              <li key={meal._id}>
-                {meal.name}
-                  <button onClick={() => handleEditMeal(meal._id)}>
-                    Edit
-                  </button> 
-                </li>)
+                <li key={meal._id}>
+                  {meal.name}
+                  <button onClick={() => handleEditMeal(meal._id)}>Edit</button>
+                  <button onClick={() => handleDeleteMeal(meal._id)}>Delete</button>
+                </li>
+              )
             ) : (
               <p>No meals available</p>
             )}
@@ -152,9 +173,8 @@ const UserRoutinePage = () => {
               filteredRoutines.map((routine) => (
                 <li key={routine._id}>
                   {routine.name}{" "}
-                  <button onClick={() => handleEditRoutine(routine._id)}>
-                    Edit
-                  </button>
+                  <button onClick={() => handleEditRoutine(routine._id)}>Edit</button>
+                  <button onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
                 </li>
               ))
             ) : (
