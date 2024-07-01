@@ -5,6 +5,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const ProgressPage = ({ targets, progress }) => {
+  console.log("newest target:", targets);
   const categories = ["Water", "Weight", "Workout", "Sleep", "Walk"];
   // const calculatePercentage = (value, target) => (target > 0 ? (value / target) * 100 : 0);
   const calculatePercentage = (category) => {
@@ -13,6 +14,8 @@ const ProgressPage = ({ targets, progress }) => {
     const result = value / target;
     return target > 0 ? result * 100 : 0;
   };
+
+  const hasTarget = Object.keys(targets).length > 0;
 
   return (
     <>
@@ -33,8 +36,16 @@ const ProgressPage = ({ targets, progress }) => {
         ))}
       </div>
       <Link to="/set-targets">
-        <button>Set your Target</button>
+        {/* to={hasTarget ? "/update-progress" : "/set-targets"} */}
+        <button>
+          Set your Target
+          {/* {hasTarget ? "Update Your Progress" : "Set your Target"} */}
+        </button>
       </Link>
+      <Link to="/set-progress">
+        <button>Update Your Progress</button>
+      </Link>
+      <Link to="/workouts-list">Workout List</Link>
     </>
   );
 };

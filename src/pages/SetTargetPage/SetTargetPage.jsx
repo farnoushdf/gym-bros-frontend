@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
+import axios from "axios";
 
 const SetTargetPage = ({ setTargets }) => {
   const navigate = useNavigate();
@@ -15,10 +17,22 @@ const SetTargetPage = ({ setTargets }) => {
     const { name, value } = e.target;
     setFormState({ ...formState, [name]: parseFloat(value) || 0 });
   };
-  const handleSubmit = (e) => {
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setTargets(formState);
     console.log('formState ', formState);
+
+
+      try {
+      const response = await axios.post(`${API_URL}/progress/create-progress`, formState);
+      console.log('Post response:', response.data);
+    } catch (error) {
+      console.error('Error posting targets:', error);
+    }
+
+
     navigate('/update-progress');
   };
   return (
@@ -38,9 +52,7 @@ const SetTargetPage = ({ setTargets }) => {
             </label>
           </div>
         ))}
-        {/* <Link to="/progress"> */}
           <button type="submit">Set Targets</button>
-        {/* </Link> */}
       </form>
     </div>
   );
