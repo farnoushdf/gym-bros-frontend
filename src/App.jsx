@@ -12,6 +12,11 @@ import WorkoutDetailsPage from "./pages/WorkoutDetailsPage/WorkoutDetailsPage";
 import WorkoutListPage from "./pages/WorkoutListPage/WorkoutListPage";
 import IsPrivate from "./components/IsPrivate";
 import MealDetailsPage from "./pages/MealDetailsPage/MealDetailsPage";
+import YourMealPage from "./pages/YourMealPage/YourMealPage";
+import YourMealDetailsPage from "./pages/YourMealDetailsPage/YourMealDetailPage";
+import Footer from "./components/Footer/Footer";
+import RoutinePage from "./pages/RoutinePage/RoutinePage";
+import RoutineDetailsPage from "./pages/RoutineDetailsPage/RoutineDetailsPage";
 
 function App() {
   const location = useLocation();
@@ -50,6 +55,33 @@ function App() {
             </IsPrivate>
           }
         />
+
+        <Route
+          path="/meals/:id"
+          element={
+            <IsPrivate>
+              <MealDetailsPage />
+            </IsPrivate>
+          }
+        />
+
+        <Route
+          path="/your-meals"
+          element={
+            <IsPrivate>
+              <YourMealPage />
+            </IsPrivate>
+          }
+         /> 
+
+        <Route
+          path="/your-meals/:id"
+          element={
+            <IsPrivate>
+              <YourMealDetailsPage />
+            </IsPrivate>
+          }
+         /> 
         
         <Route
           path="/workouts"
@@ -68,9 +100,33 @@ function App() {
           }
         />
 
+        <Route
+          path="/your-routines"
+          element={
+            <IsPrivate>
+              <RoutinePage/>
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/your-routines/:id"
+          element={
+            <IsPrivate>
+              <RoutineDetailsPage />
+            </IsPrivate>
+          }
+        />
+
+
+
+
+
+
         <Route path="/signup" element={<SignupPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+
+      <Footer />
     </>
   );
 }

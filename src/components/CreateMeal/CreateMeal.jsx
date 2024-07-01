@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
 import mealService from '../../services/meal.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUtensils } from '@fortawesome/free-solid-svg-icons';
 
 const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
   const { currentUser } = useContext(AuthContext);
@@ -55,7 +57,7 @@ const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
   return (
     <div>
       <div>
-        <div>Add Meal</div>
+      <FontAwesomeIcon icon={faUtensils} />
         <form onSubmit={handleSubmit}>
           <div>
             <label>Meal Name:</label>

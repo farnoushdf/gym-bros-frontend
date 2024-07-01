@@ -103,7 +103,6 @@ const UserRoutinePage = () => {
       );
     } catch (error) {
       console.error("Error deleting routine:", error);
-      // Handle error, show error message, etc.
     }
   };
 
@@ -131,8 +130,6 @@ const UserRoutinePage = () => {
       <div className="routine-links">
         <button onClick={() => setShowCreateMeal(true)}>Add Meal</button>
         <button onClick={() => setShowCreateRoutine(true)}>Add Routine</button>
-        <Link to="/meals">Manage Meals</Link>
-        <Link to="/routines">Manage Routines</Link>
       </div>
 
       {showCreateMeal && (
@@ -203,7 +200,11 @@ const UserRoutinePage = () => {
           />
         </div>
       )}
+        <Link to="/your-meals">Check All Added Meals</Link>
+        <Link to="/your-routines">Check All Added Routines</Link>
+
     </div>
+    
   );
 };
 

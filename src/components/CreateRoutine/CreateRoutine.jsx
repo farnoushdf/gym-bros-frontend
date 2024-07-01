@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/auth.context';
 import routineService from '../../services/routine.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 
 const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
   const { currentUser } = useContext(AuthContext);
@@ -58,7 +60,7 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
   return (
     <div>
       <div>
-        <div>Add Exercise</div>
+      <FontAwesomeIcon icon={faDumbbell} /> 
         <form onSubmit={handleSubmit}>
           <div>
             <label>Routine Name:</label>
