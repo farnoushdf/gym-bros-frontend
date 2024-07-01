@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-const API_URL = import.meta.env.VITE_API_URL;
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../context/auth.context";
 
-const SetTargetPage = ({ setTargets }) => {
+const API_URL = import.meta.env.VITE_API_URL;
+
+const SetTargetPage = () => {
   const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
 
   const [formState, setFormState] = useState({
     water: 0,
@@ -13,28 +16,51 @@ const SetTargetPage = ({ setTargets }) => {
     sleep: 0,
     walk: 0,
   });
+
+  useEffect(() => {
+    const fetchTargets = async () => {
+      try {
+        const { data } = await axios.get(
+          `${API_URL}/progress/user-progress/${currentUser._id}`
+        );
+        if (data.length > 0) {
+          setFormState(data[0]); 
+        }
+      } catch (error) {
+        console.log("Error fetching targets data:", error);
+      }
+    };
+
+    if (currentUser && currentUser._id) {
+      fetchTargets();
+    }
+  }, [currentUser]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState({ ...formState, [name]: parseFloat(value) || 0 });
+    setFormState((prevFormState) => ({
+      ...prevFormState,
+      [name]: parseFloat(value) || 0,
+    }));
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setTargets(formState);
-    console.log('formState ', formState);
 
-
-      try {
-      const response = await axios.post(`${API_URL}/progress/create-progress`, formState);
-      console.log('Post response:', response.data);
+    try {
+      const response = await axios.post(`${API_URL}/progress/create-progress`, {
+        ...formState,
+        user: currentUser._id,
+      });
+      setFormState(response.data);
+      console.log("Post response:", response.data);
     } catch (error) {
-      console.error('Error posting targets:', error);
+      console.error("Error posting targets:", error);
     }
 
-
-    navigate('/update-progress');
+    navigate("/update-progress");
   };
+
   return (
     <div>
       <h1>Set Your Targets</h1>
@@ -52,7 +78,7 @@ const SetTargetPage = ({ setTargets }) => {
             </label>
           </div>
         ))}
-          <button type="submit">Set Targets</button>
+        <button type="submit">Set Targets</button>
       </form>
     </div>
   );

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const UpdateProgressPage = ({ updateProgress }) => {
+
+const UpdateProgressPage = () => {
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
     water: 0,
@@ -19,9 +20,11 @@ const UpdateProgressPage = ({ updateProgress }) => {
     });
   };
 
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateProgress(formState);
+    
     navigate("/progress");
   };
 
