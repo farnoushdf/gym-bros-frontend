@@ -22,8 +22,8 @@ const Navbar = () => {
             <Link to="/meals">
               <button>Meals</button>
             </Link>
-            <Link to="/workouts">
-              <button>Workouts</button> 
+            <Link to="/workouts-list">
+              <button>Workouts</button>
             </Link>
           </>
         ) : (

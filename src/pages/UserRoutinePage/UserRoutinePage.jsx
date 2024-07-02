@@ -57,7 +57,7 @@ const UserRoutinePage = () => {
     setEditRoutineId(routineId);
   };
 
-  const handleEditMeal = (mealId) => { 
+  const handleEditMeal = (mealId) => {
     setEditMealId(mealId);
   };
 
@@ -65,7 +65,7 @@ const UserRoutinePage = () => {
     setEditRoutineId(null);
   };
 
-  const handleCancelEditMeal = () => { 
+  const handleCancelEditMeal = () => {
     setEditMealId(null);
   };
 
@@ -153,13 +153,15 @@ const UserRoutinePage = () => {
           <h3>Meals</h3>
           <ul>
             {filteredMeals.length > 0 ? (
-              filteredMeals.map((meal) => 
+              filteredMeals.map((meal) => (
                 <li key={meal._id}>
                   {meal.name}
                   <button onClick={() => handleEditMeal(meal._id)}>Edit</button>
-                  <button onClick={() => handleDeleteMeal(meal._id)}>Delete</button>
+                  <button onClick={() => handleDeleteMeal(meal._id)}>
+                    Delete
+                  </button>
                 </li>
-              )
+              ))
             ) : (
               <p>No meals available</p>
             )}
@@ -170,8 +172,12 @@ const UserRoutinePage = () => {
               filteredRoutines.map((routine) => (
                 <li key={routine._id}>
                   {routine.name}{" "}
-                  <button onClick={() => handleEditRoutine(routine._id)}>Edit</button>
-                  <button onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
+                  <button onClick={() => handleEditRoutine(routine._id)}>
+                    Edit
+                  </button>
+                  <button onClick={() => handleDeleteRoutine(routine._id)}>
+                    Delete
+                  </button>
                 </li>
               ))
             ) : (
@@ -200,11 +206,9 @@ const UserRoutinePage = () => {
           />
         </div>
       )}
-        <Link to="/your-meals">Check All Added Meals</Link>
-        <Link to="/your-routines">Check All Added Routines</Link>
-
+      <Link to="/your-meals">Check All Added Meals</Link>
+      <Link to="/your-routines">Check All Added Routines</Link>
     </div>
-    
   );
 };
 

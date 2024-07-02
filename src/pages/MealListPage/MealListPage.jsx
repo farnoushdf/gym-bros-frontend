@@ -1,9 +1,61 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import "./MealListPage.css";
+import { Link } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const MealListPage = () => {
-  return (
-    <div>MealListPage</div>
-  )
-}
+  const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-export default MealListPage
+  useEffect(() => {
+    const fetchMeals = async () => {
+      try {
+        const response = await fetch(`${API_URL}/meals/all-meals`);
+        if (response.ok) {
+          const json = await response.json();
+          setMeals(json);
+        } else {
+          setError(`Failed to fetch meals: ${response.status}`);
+        }
+      } catch (error) {
+        setError(`Error fetching meals: ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMeals();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  return (
+    <div>
+      <h1>Meal List</h1>
+      <div className="meal-list">
+        {meals.map((meal) => (
+          <Link
+            to={`/meals/${meal._id}`}
+            key={meal._id}
+            className="meal-item"
+          >
+            <div>
+              <h2>{meal.name}</h2>
+              {meal.image && <img src={meal.image} alt={meal.name} />}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MealListPage;
