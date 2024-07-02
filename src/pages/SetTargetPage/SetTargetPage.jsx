@@ -14,8 +14,8 @@ const SetTargetPage = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState(undefined);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
 
   // useEffect(() => {
   //   const fetchTargets = async () => {
@@ -32,7 +32,6 @@ const SetTargetPage = () => {
   //     }
   //     console.log("data ", data);
   //   };
-
   //   if (currentUser && currentUser._id) {
   //     fetchTargets();
   //   }
@@ -61,14 +60,14 @@ const SetTargetPage = () => {
       console.error("Error posting targets:", error);
     }
 
-      console.log("Post response:", response.data);
-      navigate("/progress");
-    } catch (error) {
-      setErrorMessage("Please enter numeric values for targets");
-      console.error("Error posting targets:", error);
-    } finally {
-      setIsDisabled(false);
-    }
+    //   console.log("Post response:", response.data);
+    //   navigate("/progress");
+    // } catch (error) {
+    //   setErrorMessage("Please enter numeric values for targets");
+    //   console.error("Error posting targets:", error);
+    // } finally {
+    //   setIsDisabled(false);
+    // }
   };
 
   return (
