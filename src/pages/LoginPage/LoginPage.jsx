@@ -2,13 +2,16 @@ import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
+import Modal from '../../components/Modal/Modal'; 
+import '../../components/Modal/Modal.css'; 
+import './LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { storedToken, authenticateUser } = useContext(AuthContext);
-
+  const [showModal, setShowModal] = useState(false);
   const nav = useNavigate();
   
 
@@ -38,7 +41,9 @@ const LoginPage = () => {
 
   return (
     <div className="LoginPage">
-      <h1>Login</h1>
+    <Modal show={showModal} handleClose={() => setShowModal(false)}>
+
+      <h2>Login</h2>
       <form onSubmit={handleLoginSubmit}>
         <label>Email:</label>
         <input type="email" name="email" value={email} onChange={handleEmailChange} />
@@ -52,6 +57,15 @@ const LoginPage = () => {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <p>Don't have an account yet? <br /> 
       <Link to={"/signup"}>Sign Up</Link></p>
+      </Modal>
+      <form onSubmit={handleLoginSubmit}>
+        <button type="submit" onClick={() => setShowModal(true)}>
+          Login
+        </button>
+      </form>
+      <p>
+      </p>
+
     </div>
   );
 };
