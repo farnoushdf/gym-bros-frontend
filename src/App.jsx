@@ -62,8 +62,6 @@ function App() {
           }
         />
 
-       
-
         <Route
           path="/your-meals"
           element={

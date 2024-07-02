@@ -28,7 +28,7 @@ const ProgressPage = () => {
 
   useEffect(() => {
     if (currentUser && currentUser._id) {
-      const fetchTargets = async () => {
+      const fetchTargetsAndProgress = async () => {
         try {
           const { userData } = await axios.get(
             `${API_URL}/progress/user-progress/${currentUser._id}`
@@ -47,11 +47,11 @@ const ProgressPage = () => {
 
           console.log("data-progress", data);
         } catch (error) {
-          console.log("Error fetching targets data:", error);
+          console.log("Error fetching targets and progress data:", error);
         }
       };
 
-      fetchTargets();
+      fetchTargetsAndProgress();
     }
   }, [currentUser]);
 
@@ -71,10 +71,20 @@ const ProgressPage = () => {
     }
   };
 
-  const hasTarget = Object.keys(targets).length > 0;
+  const hasTargets = Object.values(targets).some((target) => target > 0);
 
   return (
     <>
+      <div className="welcome-message">
+        <h1>Welcome, {currentUser.username}!</h1>
+        <p>Feeling motivated? Keep track of your progress and stay consistent!</p>
+        <Link to="/set-targets">
+          <button>
+            {hasTargets ? "Update Your Targets" : "Set Your Targets"}
+          </button>
+        </Link>
+      </div>
+
       <div className="progress-display">
         {categories.map((category) => (
           <div key={category}>
@@ -91,17 +101,10 @@ const ProgressPage = () => {
           </div>
         ))}
       </div>
-      <Link to="/set-targets">
-        {/* to={hasTarget ? "/update-progress" : "/set-targets"} */}
-        <button>
-          Set your Target
-          {/* {hasTarget ? "Update Your Progress" : "Set your Target"} */}
-        </button>
-      </Link>
+
       <Link to="/update-progress">
         <button>Update Your Progress</button>
       </Link>
-      <Link to="/workouts-list">Workout List</Link>
     </>
   );
 };

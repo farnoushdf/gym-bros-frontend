@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import mealService from "../../services/meal.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,7 +13,7 @@ const MealDetailsPage = () => {
   useEffect(() => {
     const fetchMealDetails = async () => {
       try {
-        const response = await mealService.fetchOneMeal(id);
+        const response = await fetch(`${API_URL}/data-meal/one-data-meal${id}`);
         setMeal(response.data);
       } catch (error) {
         setError(`Error fetching meal details: ${error.message}`);
