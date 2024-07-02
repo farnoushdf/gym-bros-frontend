@@ -27,7 +27,8 @@ const LoginPage = () => {
       })
       .then(() => {
         console.log("Login successful");
-        nav("/profile");
+        // nav("/profile");
+        nav("/progress");
       })
       .catch((err) => {
         console.log("Error logging in", err);
@@ -49,7 +50,8 @@ const LoginPage = () => {
       </form>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <Link to={"/signup"}>Sign Up</Link>
+      <p>Don't have an account yet? <br /> 
+      <Link to={"/signup"}>Sign Up</Link></p>
     </div>
   );
 };

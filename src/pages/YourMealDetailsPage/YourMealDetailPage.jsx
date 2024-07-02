@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import mealService from '../../services/meal.service';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const YourMealDetailsPage = () => {
     const { id } = useParams();
     const [meal, setMeal] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchMealDetails = async () => {
@@ -40,8 +43,11 @@ const YourMealDetailsPage = () => {
             <h2>{meal.name}</h2>
             <p>Description: {meal.description}</p>
             <p>Calories: {meal.calories}</p>
-            <p>Ingredients: {meal.ingredients}</p>
-            <p>Added on: {new Date(meal.date).toLocaleDateString()}</p>        
+            <p>Ingredients: {meal.ingredients.join(', ')}</p>
+            <p>Added on: {new Date(meal.date).toLocaleDateString()}</p>  
+            <button onClick={() => navigate('/your-routines')}>
+                <FontAwesomeIcon icon={faArrowLeft} />
+            </button>     
         </div>
     );
 };

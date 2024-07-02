@@ -91,7 +91,7 @@ const UserRoutinePage = () => {
       setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
     } catch (error) {
       console.error("Error deleting meal:", error);
-      // Handle error, show error message, etc.
+      // Handle error show error message etc.
     }
   };
 
