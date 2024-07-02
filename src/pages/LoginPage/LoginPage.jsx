@@ -50,7 +50,8 @@ const LoginPage = () => {
       </form>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <Link to={"/signup"}>Sign Up</Link>
+      <p>Don't have an account yet? <br /> 
+      <Link to={"/signup"}>Sign Up</Link></p>
     </div>
   );
 };

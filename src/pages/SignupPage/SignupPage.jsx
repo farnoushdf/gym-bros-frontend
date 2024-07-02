@@ -1,14 +1,14 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import "./SignupPage.css";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [errorMessage, setErrorMessage] = useState(undefined);
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -24,32 +24,21 @@ function SignupPage() {
     formData.append("email", email);
     formData.append("password", password);
 
-    const useData = {
-      username: username,
-      email: email,
-      password: password,
-    };
-
-
     try {
-      await axios.post("http://localhost:5005/auth/signup", formData);
-      nav("/login");
+      const config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      };
+      await axios.post("http://localhost:5005/auth/signup", formData, config);
+      navigate("/login");
     } catch (err) {
-      console.log(err);
+      if (err.response && err.response.data && err.response.data.errorMessage) {
+        setErrorMessage(err.response.data.errorMessage);
+      } else {
+        setErrorMessage("An error occurred during sign up. Please try again.");
+      }
     }
-
-    // try {
-    //   const response = await authService.signup(useData );
-    //   console.log("User signed up:", response.data);
-    //   nav("/login");
-    // } catch (error) {
-    //   console.error("Error during sign up:", error);
-    //   if (error.response && error.response.data && error.response.data.errorMessage) {
-    //     setErrorMessage(error.response.data.errorMessage);
-    //   } else {
-    //     setErrorMessage("Something went wrong with the sign-up process.");
-    //   }
-    // }
   };
 
   return (
@@ -58,13 +47,13 @@ function SignupPage() {
 
       <form onSubmit={handleSignupSubmit}>
         <label>Name:</label>
-        <input type="text" name="name" value={username} onChange={handleUsernameChange} />
+        <input type="text" name="username" value={username} onChange={handleUsernameChange} required />
 
         <label>Email:</label>
-        <input type="email" name="email" value={email} onChange={handleEmailChange} />
+        <input type="email" name="email" value={email} onChange={handleEmailChange} required />
 
         <label>Password:</label>
-        <input type="password" name="password" value={password} onChange={handlePasswordChange} />
+        <input type="password" name="password" value={password} onChange={handlePasswordChange} required />
 
         <label>User Image:</label>
         <input type="file" name="image" />

@@ -1,63 +1,210 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import CreateMeal from "../../components/ CreateMeal/ CreateMeal";
-import CreateExercise from "../../components/CreateExercise/CreateExcercise";
-
+import CreateMeal from "../../components/CreateMeal/CreateMeal";
+import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
+import { AuthContext } from "../../context/auth.context";
+import routineService from "../../services/routine.service";
+import EditMeal from "../../components/EditMeal/EditMeal";
+import EditRoutine from "../../components/EditRoutine/EditRoutine";
+import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const UserRoutinePage = () => {
-  const [userRoutines, setUserRoutines] = useState([]);
+  const { currentUser, isLoading } = useContext(AuthContext);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showCreateMeal, setShowCreateMeal] = useState(false);
-  const [showCreateExercise, setShowCreateExercise] = useState(false);
+  const [showCreateRoutine, setShowCreateRoutine] = useState(false);
+  const [meals, setMeals] = useState([]);
+  const [routines, setRoutines] = useState([]);
+  const [editRoutineId, setEditRoutineId] = useState(null);
+  const [editMealId, setEditMealId] = useState(null);
 
   useEffect(() => {
-    const fetchUserRoutines = async () => {
+    const token = localStorage.getItem("authToken");
+
+    const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/user-routines`);
-        setUserRoutines(response.data);
+        const { data } = await axios.get(`${API_URL}/auth/profile`, {
+          headers: { authorization: `Bearer ${token}` },
+        });
+        setRoutines(data.currentRoutine);
+        setMeals(data.currentMeal);
       } catch (error) {
-        console.error("Error fetching user routines:", error);
+        console.error("Error fetching user details:", error);
       }
     };
 
-    fetchUserRoutines();
-  }, []);
-  
+    if (!isLoading && currentUser) {
+      fetchUserDetails();
+    }
+  }, [isLoading, currentUser]);
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
+  const handleMealCreated = (newMeal) => {
+    setMeals((prevMeals) => [...prevMeals, newMeal]);
+  };
+
+  const handleRoutineCreated = (newRoutine) => {
+    setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
+  };
+
+  const handleEditRoutine = (routineId) => {
+    setEditRoutineId(routineId);
+  };
+
+  const handleEditMeal = (mealId) => { 
+    setEditMealId(mealId);
+  };
+
+  const handleCancelEdit = () => {
+    setEditRoutineId(null);
+  };
+
+  const handleCancelEditMeal = () => { 
+    setEditMealId(null);
+  };
+
+  const handleMealUpdated = (updatedMeal) => {
+    const updatedMeals = meals.map((meal) =>
+      meal._id === updatedMeal._id ? updatedMeal : meal
+    );
+    setMeals(updatedMeals);
+    setEditMealId(null);
+  };
+
+  const handleRoutineUpdated = (updatedRoutine) => {
+    const updatedRoutines = routines.map((routine) =>
+      routine._id === updatedRoutine._id ? updatedRoutine : routine
+    );
+    setRoutines(updatedRoutines);
+    setEditRoutineId(null);
+  };
+
+  const handleDeleteMeal = async (mealId) => {
+    try {
+      await axios.delete(`${API_URL}/meals/delete-meal/${mealId}`);
+      setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
+    } catch (error) {
+      console.error("Error deleting meal:", error);
+      // Handle error show error message etc.
+    }
+  };
+
+  const handleDeleteRoutine = async (routineId) => {
+    try {
+      await axios.delete(`${API_URL}/routines/delete-routine/${routineId}`);
+      setRoutines((prevRoutines) =>
+        prevRoutines.filter((routine) => routine._id !== routineId)
+      );
+    } catch (error) {
+      console.error("Error deleting routine:", error);
+    }
+  };
+
+  const filterEntriesByDate = (entries) => {
+    return entries.filter((entry) => {
+      const entryDate = new Date(entry.date).toDateString();
+      const selectedDateString = selectedDate.toDateString();
+      return entryDate === selectedDateString;
+    });
+  };
+
+  const filteredMeals = filterEntriesByDate(meals);
+  const filteredRoutines = filterEntriesByDate(routines);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (!currentUser) return <div>Please log in to view your routines.</div>;
+
   return (
     <div className="user-routine-page">
-      <h1>User Routine Page</h1>
+      <h1>Your Routine</h1>
       <div className="calendar-container">
         <Calendar onChange={handleDateChange} value={selectedDate} />
-      </div>
-      <div className="user-routines">
-        <h2>Routines for {selectedDate.toDateString()}</h2>
-        <ul>
-          {userRoutines.map((routine) => (
-            <li key={routine._id}>
-              <Link to={`/edit-routine/${routine._id}`}>{routine.title}</Link>
-            </li>
-          ))}
-        </ul>
       </div>
 
       <div className="routine-links">
         <button onClick={() => setShowCreateMeal(true)}>Add Meal</button>
-        <button onClick={() => setShowCreateExercise(true)}>Add Exercise</button>
-        <Link to="/meals">Manage Meals</Link>
-        <Link to="/exercises">Manage Exercises</Link>
+        <button onClick={() => setShowCreateRoutine(true)}>Add Routine</button>
       </div>
 
-      {showCreateMeal && <CreateMeal setOpen={setShowCreateMeal} />}
-      {showCreateExercise && <CreateExercise setOpen={setShowCreateExercise} />}
+      {showCreateMeal && (
+        <CreateMeal
+          setOpen={setShowCreateMeal}
+          onMealCreated={handleMealCreated}
+          selectedDate={selectedDate}
+        />
+      )}
+      {showCreateRoutine && (
+        <CreateRoutine
+          setOpen={setShowCreateRoutine}
+          onRoutineCreated={handleRoutineCreated}
+          selectedDate={selectedDate}
+        />
+      )}
+
+      <div className="user-entries">
+        <h2>Meals and Routines for {selectedDate.toDateString()}</h2>
+        <div className="entries">
+          <h3>Meals</h3>
+          <ul>
+            {filteredMeals.length > 0 ? (
+              filteredMeals.map((meal) => 
+                <li key={meal._id}>
+                  {meal.name}
+                  <button onClick={() => handleEditMeal(meal._id)}>Edit</button>
+                  <button onClick={() => handleDeleteMeal(meal._id)}>Delete</button>
+                </li>
+              )
+            ) : (
+              <p>No meals available</p>
+            )}
+          </ul>
+          <h3>Routines</h3>
+          <ul>
+            {filteredRoutines.length > 0 ? (
+              filteredRoutines.map((routine) => (
+                <li key={routine._id}>
+                  {routine.name}{" "}
+                  <button onClick={() => handleEditRoutine(routine._id)}>Edit</button>
+                  <button onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
+                </li>
+              ))
+            ) : (
+              <p>No routines available</p>
+            )}
+          </ul>
+        </div>
+      </div>
+      {editRoutineId && (
+        <div className="edit-routine-form">
+          <h2>Edit Routine</h2>
+          <EditRoutine
+            routineId={editRoutineId}
+            onCancel={handleCancelEdit}
+            onRoutineUpdated={handleRoutineUpdated}
+          />
+        </div>
+      )}
+      {editMealId && (
+        <div className="edit-meal-form">
+          <h2>Edit Meal</h2>
+          <EditMeal
+            mealId={editMealId}
+            onCancel={handleCancelEditMeal}
+            onMealUpdated={handleMealUpdated}
+          />
+        </div>
+      )}
+        <Link to="/your-meals">Check All Added Meals</Link>
+        <Link to="/your-routines">Check All Added Routines</Link>
+
     </div>
+    
   );
 };
 

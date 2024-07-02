@@ -84,4 +84,4 @@ const WorkoutListPage = () => {
   );
 };
 
-export default WorkoutListPage;
+export default WorkoutListPage
