@@ -107,7 +107,6 @@ const ProgressPage = () => {
       <Link to="/update-progress">
         <button>Update Your Progress</button>
       </Link>
-      <Link to="/workouts-list">Workout List</Link>
     </>
   );
 };
