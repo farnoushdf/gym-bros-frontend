@@ -17,24 +17,26 @@ const SetTargetPage = () => {
     walk: 0,
   });
 
-  useEffect(() => {
-    const fetchTargets = async () => {
-      try {
-        const { data } = await axios.get(
-          `${API_URL}/progress/user-progress/${currentUser._id}`
-        );
-        if (data.length > 0) {
-          setFormState(data[0]); 
-        }
-      } catch (error) {
-        console.log("Error fetching targets data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchTargets = async () => {
+  //     try {
+  //       const { data } = await axios.get(
+  //         `${API_URL}/progress/user-progress/${currentUser._id}`
+  //       );
+  //       if (data.length > 0) {
+  //         // setFormState(data[0]);
+  //         setData(data[0]);
+  //       }
+  //     } catch (error) {
+  //       console.log("Error fetching targets data:", error);
+  //     }
+  //     console.log("data ", data);
+  //   };
 
-    if (currentUser && currentUser._id) {
-      fetchTargets();
-    }
-  }, [currentUser]);
+  //   if (currentUser && currentUser._id) {
+  //     fetchTargets();
+  //   }
+  // }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -52,7 +54,7 @@ const SetTargetPage = () => {
         ...formState,
         userId: currentUser._id,
       });
-      setFormState(response.data);
+      // setFormState(response.data);
       console.log("Post response:", response.data);
     } catch (error) {
       console.error("Error posting targets:", error);

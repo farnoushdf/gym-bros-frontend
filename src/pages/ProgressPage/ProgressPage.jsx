@@ -8,33 +8,44 @@ import axios from "axios";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-
 const ProgressPage = () => {
-   const { currentUser } = useContext(AuthContext);
-   const [targets, setTargets] = useState({
-     water: 0,
-     weight: 0,
-     workout: 0,
-     sleep: 0,
-     walk: 0,
-   });
+  const { currentUser, progress } = useContext(AuthContext);
+  const [targets, setTargets] = useState({
+    water: 0,
+    weight: 0,
+    workout: 0,
+    sleep: 0,
+    walk: 0,
+  });
 
-   const [progress, setProgress] = useState({
-     water: 0,
-     weight: 0,
-     workout: 0,
-     sleep: 0,
-     walk: 0,
-   });
+  const [updateProgress, setUpdateProgress] = useState({
+    water: 0,
+    weight: 0,
+    workout: 0,
+    sleep: 0,
+    walk: 0,
+  });
 
-    useEffect(() => {
+  useEffect(() => {
     if (currentUser && currentUser._id) {
       const fetchTargets = async () => {
         try {
-          const { data } = await axios.get(`${API_URL}/progress/user-progress/${currentUser._id}`);
-          if (data.length > 0) {
-            setTargets(data[0]); 
+          const { userData } = await axios.get(
+            `${API_URL}/progress/user-progress/${currentUser._id}`
+          );
+          if (userData.length > 0) {
+            setTargets(userData[0]);
           }
+
+           const { updateData } = await axios.get(
+             `${API_URL}/progress/update-progress/${progress._id}`
+           );
+           if (updateData.length > 0) {
+             setUpdateProgress(updateData[0]);
+           }
+
+
+          console.log("data-progress", data);
         } catch (error) {
           console.log("Error fetching targets data:", error);
         }
@@ -44,20 +55,20 @@ const ProgressPage = () => {
     }
   }, [currentUser]);
 
-   if (!currentUser) {
-     return <div>Loading...</div>; 
-   }
- 
+  if (!currentUser) {
+    return <div>Loading...</div>;
+  }
+
   const categories = ["Water", "Weight", "Workout", "Sleep", "Walk"];
- 
+
   const calculatePercentage = (category) => {
-    const value = progress[category.toLowerCase()];
+    const value = updateProgress[category.toLowerCase()];
     const target = targets[category.toLowerCase()];
-     if (category === "Weight") {
-       return target > 0 ? (target / value) * 100 : 0;
-     } else {
-       return target > 0 ? (value / target) * 100 : 0;
-     }
+    if (category === "Weight") {
+      return target > 0 ? (target / value) * 100 : 0;
+    } else {
+      return target > 0 ? (value / target) * 100 : 0;
+    }
   };
 
   const hasTarget = Object.keys(targets).length > 0;
