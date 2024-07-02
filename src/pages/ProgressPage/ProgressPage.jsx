@@ -33,7 +33,7 @@ const ProgressPage = () => {
         try {
           const { data } = await axios.get(`${API_URL}/progress/user-progress/${currentUser._id}`);
           if (data.length > 0) {
-            setTargets(data[0]); // Assuming only one set of targets per user
+            setTargets(data[0]); 
           }
         } catch (error) {
           console.log("Error fetching targets data:", error);
@@ -45,7 +45,7 @@ const ProgressPage = () => {
   }, [currentUser]);
 
    if (!currentUser) {
-     return <div>Loading...</div>; // Show a loading message if currentUser is not available
+     return <div>Loading...</div>; 
    }
  
   const categories = ["Water", "Weight", "Workout", "Sleep", "Walk"];
@@ -53,8 +53,11 @@ const ProgressPage = () => {
   const calculatePercentage = (category) => {
     const value = progress[category.toLowerCase()];
     const target = targets[category.toLowerCase()];
-    const result = value / target;
-    return target > 0 ? result * 100 : 0;
+     if (category === "Weight") {
+       return target > 0 ? (target / value) * 100 : 0;
+     } else {
+       return target > 0 ? (value / target) * 100 : 0;
+     }
   };
 
   const hasTarget = Object.keys(targets).length > 0;

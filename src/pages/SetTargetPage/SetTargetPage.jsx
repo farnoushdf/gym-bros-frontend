@@ -50,7 +50,7 @@ const SetTargetPage = () => {
     try {
       const response = await axios.post(`${API_URL}/progress/create-progress`, {
         ...formState,
-        user: currentUser._id,
+        userId: currentUser._id,
       });
       setFormState(response.data);
       console.log("Post response:", response.data);
