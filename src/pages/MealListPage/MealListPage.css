@@ -15,56 +15,17 @@ body {
     line-height: 1.6;
 }
 
-/* Style the container of the workout list */
-.workout-list {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Style the page header */
-.workout-list h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Style the search form */
-.search-form {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.search-form select,
-.search-form button {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-.search-form button {
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.3s ease-in-out;
-}
-
-.search-form button:hover {
-    background-color: #0056b3;
-}
-
-/* Style the workout items container */
-.workout-list>div {
+/* Style the container of the meal list */
+.meal-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
     justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
 }
 
-/* Style each workout item */
-.workout-item {
+/* Style each meal item */
+.meal-item {
     display: block;
     width: calc(33.333% - 40px);
     /* Three items per row with 20px gap */
@@ -79,34 +40,34 @@ body {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.workout-item:hover {
+.meal-item:hover {
     transform: scale(1.05);
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Style the workout item image */
-.workout-item img {
+/* Style the meal item image */
+.meal-item img {
     width: 100%;
     height: auto;
     border-radius: 5px;
 }
 
-/* Style the workout item title */
-.workout-item h2 {
+/* Style the meal item title */
+.meal-item h2 {
     margin-top: 10px;
     font-size: 1.5rem;
     color: #333;
 }
 
 @media (max-width: 768px) {
-    .workout-item {
+    .meal-item {
         width: calc(50% - 40px);
         /* Two items per row on tablets */
     }
 }
 
 @media (max-width: 480px) {
-    .workout-item {
+    .meal-item {
         width: 100%;
         /* One item per row on mobile */
     }

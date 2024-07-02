@@ -23,7 +23,7 @@ const Navbar = () => {
               <button>Meals</button>
             </Link>
             <Link to="/workouts-list">
-              <button>Workouts</button> 
+              <button>Workouts</button>
             </Link>
           </>
         ) : (
