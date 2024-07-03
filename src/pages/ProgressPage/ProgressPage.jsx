@@ -59,14 +59,13 @@ const ProgressPage = () => {
    }
  }, [currentUser]);
 
-  const units = {
-    water: "ml",
-    weight: "kg",
-    workout: "hour",
-    sleep: "hour",
-    walk: "meter",
-  };
-
+   const units = {
+     water: "ml",
+     weight: "kg",
+     workout: "hours",
+     sleep: "hours",
+     walk: "meters",
+   };
  
  const categories = ["Water", "Weight", "Workout", "Sleep", "Walk"];
  
@@ -101,8 +100,8 @@ const ProgressPage = () => {
                 value={calculatePercentage(category)}
                 text={`${Math.round(calculatePercentage(category))}%`}
                 styles={buildStyles({
-                  textColor: "#F2613F",
-                  pathColor: "#ee9c30",
+                  textColor: "#c07c1e",
+                  pathColor: "#c07c1e",
                   trailColor: "#dfe1e6",
                 })}
               />

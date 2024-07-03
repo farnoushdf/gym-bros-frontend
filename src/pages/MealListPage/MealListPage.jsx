@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./MealListPage.css";
 import { Link } from "react-router-dom";
+import "./MealListPage.css"
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -38,15 +39,11 @@ const MealListPage = () => {
   }
 
   return (
-    <div>
+    <div className="meal-list-page">
       <h1>Meal List</h1>
       <div className="meal-list">
         {meals.map((meal) => (
-          <Link
-            to={`/meals/${meal._id}`}
-            key={meal._id}
-            className="meal-item"
-          >
+          <Link to={`/meals/${meal._id}`} key={meal._id} className="meal-item">
             <div>
               <h2>{meal.name}</h2>
               {meal.image && <img src={meal.image} alt={meal.name} />}

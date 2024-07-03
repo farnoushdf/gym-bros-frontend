@@ -1,5 +1,7 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import "./SetTargetPage.css"
+import { Form, InputGroup, Button } from "react-bootstrap"; 
 import axios from "axios";
 import { AuthContext } from "../../context/auth.context";
 
@@ -17,7 +19,13 @@ const SetTargetPage = () => {
     walk: 0,
   });
 
-
+const units = {
+  water: "ml",
+  weight: "kg",
+  workout: "hours",
+  sleep: "hours",
+  walk: "meters",
+};
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,24 +52,26 @@ const SetTargetPage = () => {
   };
   
   return (
-    <div>
+    <div className="set-target-page">
       <h1>Set Your Targets</h1>
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         {Object.keys(formState).map((key) => (
-          <div key={key}>
-            <label>
-              {key.charAt(0).toUpperCase() + key.slice(1)}:
-              <input
-                type="number"
-                name={key}
-                value={formState[key]}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+          <InputGroup className="mb-3" key={key}>
+            <InputGroup.Text>
+              {key.charAt(0).toUpperCase() + key.slice(1)}
+            </InputGroup.Text>
+            <Form.Control
+              type="number"
+              name={key}
+              value={formState[key]}
+              onChange={handleChange}
+              placeholder={`Enter ${key} (${units[key]})`}
+            />
+            <InputGroup.Text>{units[key]}</InputGroup.Text>
+          </InputGroup>
         ))}
-        <button type="submit">Set Targets</button>
-      </form>
+        <Button type="submit">Set Targets</Button>
+      </Form>
     </div>
   );
 };
