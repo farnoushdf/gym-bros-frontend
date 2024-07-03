@@ -8,7 +8,7 @@ const AuthContextWrapper = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(null); // State for alert message
+  const [alertMessage, setAlertMessage] = useState(null); 
   const nav = useNavigate();
 
   const storedToken = (token) => {

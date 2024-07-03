@@ -5,11 +5,11 @@ import "react-calendar/dist/Calendar.css";
 import CreateMeal from "../../components/CreateMeal/CreateMeal";
 import CreateRoutine from "../../components/CreateRoutine/CreateRoutine";
 import { AuthContext } from "../../context/auth.context";
-import routineService from "../../services/routine.service";
 import EditMeal from "../../components/EditMeal/EditMeal";
 import EditRoutine from "../../components/EditRoutine/EditRoutine";
 import axios from "axios";
-import "./UserRoutinePage.css"; // Import the CSS file
+import Modal from "../../components/Modal/Modal";
+import "./UserRoutinePage.css";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -49,10 +49,12 @@ const UserRoutinePage = () => {
 
   const handleMealCreated = (newMeal) => {
     setMeals((prevMeals) => [...prevMeals, newMeal]);
+    setShowCreateMeal(false);
   };
 
   const handleRoutineCreated = (newRoutine) => {
     setRoutines((prevRoutines) => [...prevRoutines, newRoutine]);
+    setShowCreateRoutine(false);
   };
 
   const handleEditRoutine = (routineId) => {
@@ -124,87 +126,100 @@ const UserRoutinePage = () => {
   return (
     <div className="user-routine-page">
       <h1 className="page-title">Your Routine</h1>
-      <div className="calendar-container">
-        <Calendar onChange={handleDateChange} value={selectedDate} />
+
+      <div className="calendar-and-entries">
+        <div className="calendar-container">
+          <Calendar onChange={handleDateChange} value={selectedDate} />
+        </div>
+
+        <div className="entries-container">
+          <div className="routine-links">
+            <button className="btn btn-add btn-add-meal" onClick={() => setShowCreateMeal(true)}>Add Meal</button>
+            <button className="btn btn-add btn-add-routine" onClick={() => setShowCreateRoutine(true)}>Add Routine</button>
+          </div>
+
+          <div className="user-entries">
+            <h2 className="entries-title">Meals and Routines for {selectedDate.toDateString()}</h2>
+            <div className="entries">
+              <div className="entries-section">
+                <h3>Meals</h3>
+                <ul>
+                  {filteredMeals.length > 0 ? (
+                    filteredMeals.map((meal) => (
+                      <li key={meal._id}>
+                        {meal.name}
+                        <button className="btn btn-edit btn-edit-meal" onClick={() => handleEditMeal(meal._id)}>Edit</button>
+                        <button className="btn btn-delete btn-edit-routine" onClick={() => handleDeleteMeal(meal._id)}>Delete</button>
+                      </li>
+                    ))
+                  ) : (
+                    <p>No meals available</p>
+                  )}
+                </ul>
+              </div>
+              <div className="entries-section">
+                <h3>Routines</h3>
+                <ul>
+                  {filteredRoutines.length > 0 ? (
+                    filteredRoutines.map((routine) => (
+                      <li key={routine._id}>
+                        {routine.name}{" "}
+                        <button className="btn btn-edit" onClick={() => handleEditRoutine(routine._id)}>Edit</button>
+                        <button className="btn btn-delete" onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
+                      </li>
+                    ))
+                  ) : (
+                    <p>No routines available</p>
+                  )}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="routine-links">
-        <button className="btn btn-add" onClick={() => setShowCreateMeal(true)}>Add Meal</button>
-        <button className="btn btn-add" onClick={() => setShowCreateRoutine(true)}>Add Routine</button>
-      </div>
-
-      {showCreateMeal && (
+      <Modal show={showCreateMeal} handleClose={() => setShowCreateMeal(false)}>
         <CreateMeal
           setOpen={setShowCreateMeal}
           onMealCreated={handleMealCreated}
           selectedDate={selectedDate}
         />
-      )}
-      {showCreateRoutine && (
+      </Modal>
+
+      <Modal show={showCreateRoutine} handleClose={() => setShowCreateRoutine(false)}>
         <CreateRoutine
           setOpen={setShowCreateRoutine}
           onRoutineCreated={handleRoutineCreated}
           selectedDate={selectedDate}
         />
+      </Modal>
+
+      {editRoutineId && (
+        <Modal show={editRoutineId !== null} handleClose={handleCancelEdit}>
+          <div className="edit-routine-form">
+            <h2>Edit Routine</h2>
+            <EditRoutine
+              routineId={editRoutineId}
+              onCancel={handleCancelEdit}
+              onRoutineUpdated={handleRoutineUpdated}
+            />
+          </div>
+        </Modal>
       )}
 
-      <div className="user-entries">
-        <h2 className="entries-title">Meals and Routines for {selectedDate.toDateString()}</h2>
-        <div className="entries">
-          <div className="entries-section">
-            <h3>Meals</h3>
-            <ul>
-              {filteredMeals.length > 0 ? (
-                filteredMeals.map((meal) => (
-                  <li key={meal._id}>
-                    {meal.name}
-                    <button className="btn btn-edit" onClick={() => handleEditMeal(meal._id)}>Edit</button>
-                    <button className="btn btn-delete" onClick={() => handleDeleteMeal(meal._id)}>Delete</button>
-                  </li>
-                ))
-              ) : (
-                <p>No meals available</p>
-              )}
-            </ul>
-          </div>
-          <div className="entries-section">
-            <h3>Routines</h3>
-            <ul>
-              {filteredRoutines.length > 0 ? (
-                filteredRoutines.map((routine) => (
-                  <li key={routine._id}>
-                    {routine.name}{" "}
-                    <button className="btn btn-edit" onClick={() => handleEditRoutine(routine._id)}>Edit</button>
-                    <button className="btn btn-delete" onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
-                  </li>
-                ))
-              ) : (
-                <p>No routines available</p>
-              )}
-            </ul>
-          </div>
-        </div>
-      </div>
-      {editRoutineId && (
-        <div className="edit-routine-form">
-          <h2>Edit Routine</h2>
-          <EditRoutine
-            routineId={editRoutineId}
-            onCancel={handleCancelEdit}
-            onRoutineUpdated={handleRoutineUpdated}
-          />
-        </div>
-      )}
       {editMealId && (
-        <div className="edit-meal-form">
-          <h2>Edit Meal</h2>
-          <EditMeal
-            mealId={editMealId}
-            onCancel={handleCancelEditMeal}
-            onMealUpdated={handleMealUpdated}
-          />
-        </div>
+        <Modal show={editMealId !== null} handleClose={handleCancelEditMeal}>
+          <div className="edit-meal-form">
+            <h2>Edit Meal</h2>
+            <EditMeal
+              mealId={editMealId}
+              onCancel={handleCancelEditMeal}
+              onMealUpdated={handleMealUpdated}
+            />
+          </div>
+        </Modal>
       )}
+
       <Link className="link" to="/your-meals">Check All Added Meals</Link>
       <Link className="link" to="/your-routines">Check All Added Routines</Link>
     </div>

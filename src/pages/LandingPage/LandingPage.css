@@ -9,11 +9,10 @@
     animation: gradientAnimation 15s ease infinite;
   }
   
-  /* Content inside LandingPage */
   .content {
     text-align: center;
-    color: #ECB365; /* Light orange */
-    padding: 0 20px; /* Add padding to center content horizontally */
+    color: #ECB365; 
+    padding: 0 20px; 
   }
   
   .content h1 {
@@ -27,8 +26,8 @@
   }
   
   .content button {
-    background-color: #ECB365; /* Light orange */
-    color: #041C32; /* Dark blue */
+    background-color: #ECB365; 
+    color: #041C32; 
     border: none;
     padding: 10px 20px;
     font-size: 1.2rem;
@@ -40,8 +39,7 @@
   .content button:hover {
     background-color: #064663; /* Dark cyan */
   }
-  
-  /* Responsive design */
+
   @media (max-width: 1024px) {
     .content h1 {
       font-size: 2.5rem;

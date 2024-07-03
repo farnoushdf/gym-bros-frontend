@@ -5,7 +5,7 @@
     justify-content: space-between;
     width: 98vw;
     padding: 0 1vw;
-    height: 2vh;
+    height: 2vh; 
     position: relative;
   }
   
@@ -15,17 +15,15 @@
   
   .navbar h1 {
     color: #ecb365;
-    position: absolute;
-    left: 43%;
     margin: 0;
     animation: fadeIn 5s forwards;
+    padding-left: 100px;
   }
   
   @keyframes fadeIn {
     from {
       opacity: 0;
     }
-  
     to {
       opacity: 1;
     }
@@ -43,7 +41,12 @@
     text-decoration: none;
     transition: background-color 0.3s;
   }
-    
+  
+  .navbar a:hover,
+  .navbar button:hover {
+    background-color: rgba(236, 179, 101, 0.2);
+  }
+  
   .navbar .username-button button {
     border-radius: 50%;
     width: 40px;
@@ -72,6 +75,7 @@
     display: flex;
     align-items: center;
   }
+  
   .username-logout .auth-buttons {
     border-radius: 5px;
     width: auto;
@@ -79,3 +83,34 @@
     font-size: 16px;
     margin-left: 10px;
   }
+  
+  /* Responsive Adjustments */
+  @media screen and (max-width: 768px) {
+    .navbar {
+      flex-direction: column;
+      height: auto;
+      padding: 10px 1vw;
+    }
+  
+    .navbar-logo {
+      margin-top: 10px;
+    }
+  
+    .navbar h1 {
+      position: relative;
+      left: auto;
+      padding-left: 0;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+  
+    .navbar .username-logout {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .navbar .auth-buttons {
+      margin-top: 10px;
+    }
+  }
+  

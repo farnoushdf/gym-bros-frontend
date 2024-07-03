@@ -29,35 +29,35 @@ const Navbar = () => {
         )}
 
         {currentUser ? (
-          <>
+          <div className="user-info">
             <div className="username-logout">
-                {currentUser.userImage ? (
-                  <img
-                    src={currentUser.userImage}
-                    alt="Profile"
-                    className="profile-image"
-                    style={{ width: "30px", height: "30px", borderRadius: "50%" }}
-                  />
-                ) : (
-                  <div className="avatar">{currentUser.username}</div>
-                )}
-              {"/"}
+              {currentUser.userImage ? (
+                <img
+                  src={currentUser.userImage}
+                  alt="Profile"
+                  className="profile-image"
+                  style={{ width: "30px", height: "30px", borderRadius: "50%", marginRight: "10px"}}
+                />
+              ) : (
+                <div className="avatar">{currentUser.username.charAt(0)}</div>
+              )}
+              <span className="username">
+                  Welcome! {currentUser.username}
+              </span>
               <button className="logout" onClick={handleLogout}>
-                Logout
+               / Logout
               </button>
             </div>
-          </>
+          </div>
         ) : (
-          <>
-            <div className="username-logout">
-              <Link to="/signup" className="auth-buttons">
-                <button>Sign Up</button>
-              </Link>
-              <Link to="/login" className="auth-buttons">
-                <button>Login</button>
-              </Link>
-            </div>
-          </>
+          <div className="username-logout">
+            <Link to="/signup" className="auth-buttons">
+              <button>Sign Up</button>
+            </Link>
+            <Link to="/login" className="auth-buttons">
+              <button>Login</button>
+            </Link>
+          </div>
         )}
       </nav>
     )

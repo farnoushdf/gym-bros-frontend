@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Modal from '../../components/Modal/Modal'; 
@@ -13,8 +13,9 @@ const HomePage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
+  const { storedToken, authenticateUser } = useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [alertMessage, setAlertMessage] = useState('');
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(AuthContext);
 
@@ -39,7 +40,7 @@ const HomePage = () => {
         }
       };
       await axios.post('http://localhost:5005/auth/signup', formData, config);
-      setSuccessMessage('Signup successful! Please log in.');
+      setAlertMessage('Signup successful! Please log in.');
       setShowSignupModal(false);
     } catch (err) {
       if (err.response && err.response.data && err.response.data.errorMessage) {
@@ -52,28 +53,38 @@ const HomePage = () => {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const response = await axios.post('http://localhost:5005/auth/login', {
-        email,
-        password
+    const requestBody = { email, password };
+    axios
+      .post("http://localhost:5005/auth/login", requestBody)
+      .then(({ data }) => {
+        console.log("response from the login", data);
+        storedToken(data.authToken);
+        return authenticateUser();
+      })
+      .then(() => {
+        console.log("Login successful");
+        // nav("/profile");
+        navigate("/progress");
+      })
+      .catch((err) => {
+        console.log("Error logging in", err);
+        setErrorMessage("Failed to log in. Please check your credentials.");
       });
-      setCurrentUser(response.data.user); // Assuming your AuthContext handles setting currentUser
-      setSuccessMessage('Login successful!');
-      setShowLoginModal(false);
-      navigate('/profile');
-    } catch (err) {
-      if (err.response && err.response.data && err.response.data.errorMessage) {
-        setErrorMessage(err.response.data.errorMessage);
-      } else {
-        setErrorMessage('An error occurred during login. Please try again.');
-      }
-    }
   };
+
+  useEffect(() => {
+    let alertTimer;
+    if (alertMessage) {
+      alertTimer = setTimeout(() => {
+        setAlertMessage(null);
+      }, 3000); 
+    }
+    return () => clearTimeout(alertTimer);
+  }, [alertMessage]);
 
   return (
     <div className="homepage">
-      {successMessage && <p className="success-message">{successMessage}</p>}
+      {alertMessage && <div className="alert-message">{alertMessage}</div>}
 
       <h1>Start Your Fitness Journey Today!</h1>
       <div className="auth-links">
@@ -131,7 +142,10 @@ const HomePage = () => {
         </div>
         <p>
           Already have an account? <br />
-          <Link to="/login" onClick={() => setShowSignupModal(false) && setShowLoginModal(true)}>Login</Link>
+          <Link to="/login" onClick={() => {
+            setShowSignupModal(false);
+            setShowLoginModal(true);
+          }}>Login</Link>
         </p>
       </Modal>
 
@@ -152,7 +166,10 @@ const HomePage = () => {
         </div>
         <p>
           Don't have an account? <br />
-          <Link to="/signup" onClick={() => setShowLoginModal(false) && setShowSignupModal(true)}>Sign Up</Link>
+          <Link to="/signup" onClick={() => {
+            setShowLoginModal(false);
+            setShowSignupModal(true);
+          }}>Sign Up</Link>
         </p>
       </Modal>
     </div>
