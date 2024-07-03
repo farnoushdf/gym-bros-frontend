@@ -42,11 +42,7 @@ const MealListPage = () => {
       <h1>Meal List</h1>
       <div className="meal-list">
         {meals.map((meal) => (
-          <Link
-            to={`/meals/${meal._id}`}
-            key={meal._id}
-            className="meal-item"
-          >
+          <Link to={`/meals/${meal._id}`} key={meal._id} className="meal-item">
             <div>
               <h2>{meal.name}</h2>
               {meal.image && <img src={meal.image} alt={meal.name} />}
