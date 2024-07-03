@@ -99,7 +99,7 @@ const Footer = () => {
                   <span>Progress</span>
                 </div>
               </Link>
-              <Link to="/your-meals/">
+              <Link to="/meals">
                 <div
                   className="footer-item"
                   style={{

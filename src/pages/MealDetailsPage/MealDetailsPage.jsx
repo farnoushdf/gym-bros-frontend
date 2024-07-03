@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const MealDetailsPage = () => {
   const { id } = useParams();
@@ -13,7 +16,7 @@ const MealDetailsPage = () => {
   useEffect(() => {
     const fetchMealDetails = async () => {
       try {
-        const response = await fetch(`${API_URL}/data-meal/one-data-meal${id}`);
+        const response = await axios.get(`${API_URL}/meals/one-meal/${id}`);
         setMeal(response.data);
       } catch (error) {
         setError(`Error fetching meal details: ${error.message}`);
