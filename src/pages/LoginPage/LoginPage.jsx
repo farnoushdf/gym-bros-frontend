@@ -8,6 +8,7 @@ import './LoginPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import Confetti from 'react-canvas-confetti';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ const LoginPage = () => {
     e.preventDefault();
     const requestBody = { email, password };
     axios
-      .post("http://localhost:5005/auth/login", requestBody)
+      .post(`${API_URL}/auth/login`, requestBody)
       .then(({ data }) => {
         console.log("response from the login", data);
         storedToken(data.authToken);

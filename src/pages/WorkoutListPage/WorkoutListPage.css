@@ -1,4 +1,3 @@
-/* Reset some default styles */
 body,
 h1,
 h2,
@@ -7,28 +6,41 @@ p {
     padding: 0;
 }
 
-/* Set a basic style for the body */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
+    background: linear-gradient(-45deg, #000204, #04293A, #064663, #ECB365);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+    color: #ECB365;
     line-height: 1.6;
 }
 
-/* Style the container of the workout list */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .workout-list {
-    padding: 20px;
-    max-width: 1200px;
+    max-width: 1800px;
     margin: 0 auto;
-}
-
-/* Style the page header */
-.workout-list h1 {
+    padding: 100px 20px;
     text-align: center;
-    margin-bottom: 20px;
+    color: #ECB365;
 }
 
-/* Style the search form */
+.workout-list h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+}
+
 .search-form {
     display: flex;
     justify-content: center;
@@ -55,26 +67,24 @@ body {
     background-color: #0056b3;
 }
 
-/* Style the workout items container */
-.workout-list>div {
+.workout-list > div {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
     justify-content: space-around;
+    padding: 20px;
+    gap: 20px;
 }
 
-/* Style each workout item */
 .workout-item {
     display: block;
     width: calc(33.333% - 40px);
-    /* Three items per row with 20px gap */
     text-align: center;
-    background-color: #fff;
+    background-color: rgba(236, 210, 210, 0.1);
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     text-decoration: none;
-    color: #333;
+    color: #ECB365;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
@@ -84,30 +94,61 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Style the workout item image */
 .workout-item img {
     width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-radius: 8px;
 }
 
-/* Style the workout item title */
 .workout-item h2 {
     margin-top: 10px;
-    font-size: 1.5rem;
-    color: #333;
+    font-size: 1.8rem;
+    color: #FFFFFF;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+    .workout-list {
+        padding: 80px 20px;
+    }
+
+    .search-form select,
+    .search-form button {
+        font-size: 0.9rem;
+    }
+
     .workout-item {
-        width: calc(50% - 40px);
-        /* Two items per row on tablets */
+        width: calc(33.333% - 20px);
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 900px) {
+    .workout-item {
+        width: calc(50% - 20px);
+    }
+
+    .search-form select,
+    .search-form button {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 600px) {
     .workout-item {
         width: 100%;
-        /* One item per row on mobile */
+    }
+
+    .workout-list {
+        padding: 60px 10px;
+    }
+
+    .search-form {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .search-form select,
+    .search-form button {
+        font-size: 0.8rem;
+        padding: 8px;
     }
 }

@@ -6,6 +6,7 @@ import '../../components/Modal/Modal.css';
 import './HomePage.css';
 import fitnessImage from "../../assets/fitness-image.png";
 import { AuthContext } from '../../context/auth.context';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const HomePage = () => {
   const [showSignupModal, setShowSignupModal] = useState(false);
@@ -39,7 +40,7 @@ const HomePage = () => {
           'Content-Type': 'multipart/form-data'
         }
       };
-      await axios.post('http://localhost:5005/auth/signup', formData, config);
+      await axios.post(`${API_URL}/auth/signup`, formData, config);
       setAlertMessage('Signup successful! Please log in.');
       setShowSignupModal(false);
     } catch (err) {
@@ -55,7 +56,7 @@ const HomePage = () => {
     e.preventDefault();
     const requestBody = { email, password };
     axios
-      .post("http://localhost:5005/auth/login", requestBody)
+      .post(`${API_URL}/auth/login`, requestBody)
       .then(({ data }) => {
         console.log("response from the login", data);
         storedToken(data.authToken);

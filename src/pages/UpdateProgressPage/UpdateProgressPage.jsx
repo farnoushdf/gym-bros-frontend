@@ -1,133 +1,79 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Form, InputGroup, Button } from "react-bootstrap"; 
+import "./UpdateProgressPage.css";
 import { AuthContext } from "../../context/auth.context";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const UpdateProgressPage = () => {
-  const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
-  const [water, setWater] = useState('');
-  const [weight, setWeight] = useState('');
-  const [workout, setWorkout] = useState('');
-  const [previousProgress, setPreviousProgress] = useState({});
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(undefined);
+  const navigate = useNavigate();
+  const [formState, setFormState] = useState({
+    water: 0,
+    weight: 0,
+    workout: 0,
+    sleep: 0,
+    walk: 0,
+  });
 
-  useEffect(() => {
-    const fetchProgress = async () => {
-      try {
-        const { data } = await axios.get(
-          `${API_URL}/progress/user-progress/${currentUser._id}`
-        );
-        if (data.length > 0) {
-          const latestProgress = data[0];
-          setPreviousProgress(latestProgress); 
-          setWater(latestProgress.water.toString());
-          setWeight(latestProgress.weight.toString());
-          setWorkout(latestProgress.workout.toString());
+  const units = {
+    water: "ml",
+    weight: "kg",
+    workout: "hours",
+    sleep: "hours",
+    walk: "meters",
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post(
+        `${API_URL}/updateProgress/create-progress`,
+        {
+          ...formState,
+          userId: currentUser._id,
         }
-      } catch (error) {
-        console.log("Error fetching progress data:", error);
-      }
-    };
-
-    if (currentUser && currentUser._id) {
-      fetchProgress();
+      );
+      setFormState(response.data);
+      console.log("Post response:", response.data);
+    } catch (error) {
+      console.error("Error posting targets:", error);
     }
-  }, [currentUser]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+    navigate("/progress");
+  };
 
-    const updatedProgress = {
-      water: Number(water),
-      weight: Number(weight),
-      workout: Number(workout),
-    };
-
-    console.log("Updated progress:", updatedProgress);
-    navigate("/progress")
-
-    // try {
-    //   setIsDisabled(true);
-    //   await axios.patch(`${API_URL}/progress/update-progress`, {
-    //     ...updatedProgress,
-    //     userId: currentUser._id,
-    //   });
-    //
-    //   setPreviousProgress(updatedProgress);
-    //
-    //   console.log("Update success. Updated progress:", updatedProgress);
-    //   navigate("/progress");
-    // } catch (error) {
-    //   setErrorMessage("Error updating progress");
-    //   console.error("Error updating progress:", error);
-    // } finally {
-    //   setIsDisabled(false);
-    // }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prevFormState) => ({
+      ...prevFormState,
+      [name]: parseFloat(value) || 0,
+    }));
   };
 
   return (
-    <div>
-      <h1>Update Your Progress</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Water:</label>
-          <input
-            type="text"
-            value={water}
-            onChange={(e) => setWater(e.target.value)}
-            disabled={isDisabled}
-            placeholder="Enter water intake"
-          />
-          <span className="input-unit">litres(s)</span>
-          {previousProgress && (
-            <span className="previous-progress">
-              Previous: {previousProgress.water} litres
-            </span>
-          )}
-        </div>
-        <div>
-          <label>Weight:</label>
-          <input
-            type="text"
-            value={weight}
-            onChange={(e) => setWeight(e.target.value)}
-            disabled={isDisabled}
-            placeholder="Enter weight"
-          />
-          <span className="input-unit">kg</span>
-          {previousProgress && (
-            <span className="previous-progress">
-              Previous: {previousProgress.weight} kg
-            </span>
-          )}
-        </div>
-        <div>
-          <label>Workout:</label>
-          <input
-            type="text"
-            value={workout}
-            onChange={(e) => setWorkout(e.target.value)}
-            disabled={isDisabled}
-            placeholder="Enter workout duration"
-          />
-          <span className="input-unit">minutes</span>
-          {previousProgress && (
-            <span className="previous-progress">
-              Previous: {previousProgress.workout} minutes
-            </span>
-          )}
-        </div>
-        <div>
-          <p className="error-message">{errorMessage && errorMessage}</p>
-          <button type="submit" disabled={isDisabled}>
-            Update Progress
-          </button>
-        </div>
-      </form>
+    <div className="update-progress-page">
+      <h1>Update Progress</h1>
+      <Form onSubmit={handleSubmit}>
+        {Object.keys(formState).map((key) => (
+          <InputGroup className="mb-3" key={key}>
+            <InputGroup.Text>{key.charAt(0).toUpperCase() + key.slice(1)}</InputGroup.Text>
+            <Form.Control
+              type="number"
+              name={key}
+              value={formState[key]}
+              onChange={handleChange}
+              placeholder={`Enter ${key} (${units[key]})`}
+            />
+            <InputGroup.Text>{units[key]}</InputGroup.Text>
+          </InputGroup>
+        ))}
+
+        <Button type="submit">Update Progress</Button>
+      </Form>
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 const AuthContext = createContext();
 
@@ -18,7 +20,7 @@ const AuthContextWrapper = ({ children }) => {
   const authenticateUser = async () => {
     const tokenFromLocalStorage = localStorage.getItem("authToken");
     try {
-      const { data } = await axios.get("http://localhost:5005/auth/verify", {
+      const { data } = await axios.get(`${API_URL}/auth/verify`, {
         headers: { authorization: `Bearer ${tokenFromLocalStorage}` },
       });
       setCurrentUser(data.user);

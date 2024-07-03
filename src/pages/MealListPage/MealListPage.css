@@ -1,74 +1,66 @@
-/* Reset some default styles */
-body,
-h1,
-h2,
-p {
-    margin: 0;
-    padding: 0;
+.meal-list-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  text-align: center;
+  color: #a79f9f;
 }
 
-/* Set a basic style for the body */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    line-height: 1.6;
+.meal-list-page h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
 }
 
-/* Style the container of the meal list */
 .meal-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    padding: 20px;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 }
 
-/* Style each meal item */
 .meal-item {
-    display: block;
-    width: calc(33.333% - 40px);
-    /* Three items per row with 20px gap */
-    text-align: center;
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: block;
+  text-decoration: none;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
 .meal-item:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Style the meal item image */
 .meal-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-/* Style the meal item title */
 .meal-item h2 {
-    margin-top: 10px;
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  .meal-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .meal-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .meal-list-page {
+    padding: 50px 10px;
+  }
+
+  .meal-item h2 {
     font-size: 1.5rem;
-    color: #333;
-}
-
-@media (max-width: 768px) {
-    .meal-item {
-        width: calc(50% - 40px);
-        /* Two items per row on tablets */
-    }
-}
-
-@media (max-width: 480px) {
-    .meal-item {
-        width: 100%;
-        /* One item per row on mobile */
-    }
+  }
 }
