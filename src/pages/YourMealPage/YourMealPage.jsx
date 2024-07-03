@@ -16,10 +16,10 @@ const YourMealPage = () => {
                     const json = await response.json();
                     setMeals(json);
                 } else {
-                    setError(`Failed to fetch meals: ${response.status}`);
+                    setError("Oops! Something went wrong. Please try again later!");
                 }
             } catch (error) {
-                setError(`Error fetching meals: ${error.message}`);
+                setError("Oops! Something went wrong. Please try again later!");
             } finally {
                 setLoading(false);
             }
@@ -33,7 +33,7 @@ const YourMealPage = () => {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <p>"Oops! Something went wrong. Please try again later!"</p>;
     }
 
     return (

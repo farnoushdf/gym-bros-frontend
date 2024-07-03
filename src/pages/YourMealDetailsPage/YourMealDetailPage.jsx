@@ -17,7 +17,7 @@ const YourMealDetailsPage = () => {
                 const response = await mealService.fetchOneMeal(id);
                 setMeal(response.data);
             } catch (error) {
-                setError(`Error fetching meal details: ${error.message}`); 
+                setError("Oops! Something went wrong. Please try again later!"); 
             } finally {
                 setLoading(false);
             }
@@ -31,7 +31,7 @@ const YourMealDetailsPage = () => {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <p>"Oops! Something went wrong. Please try again later!"</p>;
     }
 
     if (!meal) {

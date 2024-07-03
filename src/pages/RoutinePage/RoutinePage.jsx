@@ -15,10 +15,10 @@ const RoutinePage = () => {
                     const json = await response.json();
                     setRoutines(json);
                 } else {
-                    setError(`Failed to get your Routines: ${response.status}`);
+                    setError("Oops! Something went wrong. Please try again later!");
                 }
             } catch (error) {
-                setError(`Error getting your Routines: ${error.message}`);
+                setError("Oops! Something went wrong. Please try again later!");
             } finally {
                 setLoading(false);
             }
@@ -32,7 +32,7 @@ const RoutinePage = () => {
     }
 
     if (error) {
-        return <p>{error}</p>;
+        return <p>"Oops! Something went wrong. Please try again later!"</p>;
     }
 
     return (

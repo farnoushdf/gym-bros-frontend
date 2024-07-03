@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import "./MealDetailsPage.css"
 import axios from "axios";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,18 +14,18 @@ const MealDetailsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMealDetails = async () => {
+    const fetchOneMealDetail = async () => {
       try {
-        const response = await axios.get(`${API_URL}/meals/one-meal/${id}`);
-        setMeal(response.data);
+        const { data } = await axios.get(`${API_URL}/data-meal/one-data-meal/${id}`);
+        setMeal(data);
       } catch (error) {
-        setError(`Error fetching meal details: ${error.message}`);
+        setError("Oops! Something went wrong. Please try again later!");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMealDetails();
+    fetchOneMealDetail();
   }, [id]);
 
   if (loading) {
@@ -34,7 +33,7 @@ const MealDetailsPage = () => {
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <p>"Oops! Something went wrong. Please try again later!"</p>;
   }
 
   if (!meal) {

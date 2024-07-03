@@ -1,54 +1,4 @@
-// import { useContext } from "react";
-// import { Link } from "react-router-dom";
-// import { AuthContext } from "../../context/auth.context";
-// import "./Footer.css"
-
-// const Footer = () => {
-//   const { handleLogout, currentUser } = useContext(AuthContext);
-//   const isLandingPage = window.location.pathname === "/";
-//   return (
-//     <footer className="footer">
-//       {/* !isLandingPage && ( */}
-//       <div className="footer">
-//         {currentUser ? (
-//           <>
-//             <Link to="/profile">
-//               <button>Your Routine</button>
-//             </Link>
-//             <Link to="/progress">
-//               <button>Progress</button>
-//             </Link>
-
-//             <Link to="/meals">
-//               <button>Meals</button>
-//             </Link>
-//             <Link to="/workouts-list">
-//               <button>Workouts</button>
-//             </Link>
-//           </>
-//         ) : (
-//           <>
-//             <Link to="/signup">
-//               <button>Sign Up</button>
-//             </Link>
-//             <Link to="/login">
-//               <button>Login</button>
-//             </Link>
-//           </>
-//         )}
-//       </div>
-//       {/* )  */}
-//       <div className="footer-content">
-//         <p>&copy; 2024 GymBros App. All rights reserved.</p>
-//       </div>
-//     </footer>
-//   );
-// };
-
-// export default Footer;
-
-
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 import routineLogo from "../../assets/routine-logo.png";
@@ -129,20 +79,12 @@ const Footer = () => {
               </Link>
             </>
           ) : (
-            <>
-              <Link to="/signup">
-                <button>Sign Up</button>
-              </Link>
-              <Link to="/login">
-                <button>Login</button>
-              </Link>
-            </>
+            <div className="footer-content">
+              <p>&copy; 2024 GymBros App. All rights reserved.</p>
+            </div>
           )}
         </div>
       )}
-      <div className="footer-content">
-        <p>&copy; 2024 GymBros App. All rights reserved.</p>
-      </div>
     </footer>
   );
 };

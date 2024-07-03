@@ -19,7 +19,7 @@ const EditRoutine = ({ routineId, onCancel, onRoutineUpdated }) => {
         setTotalDuration(totalDuration);
       } catch (error) {
         console.error('Error fetching routine details:', error);
-        setErrorMessage('Error fetching routine details');
+        setErrorMessage("Oops! Something went wrong. Please try again later!");
       }
     };
 

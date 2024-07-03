@@ -17,7 +17,7 @@ const EditMeal = ({ mealId, onCancel, onMealUpdated }) => {
         setDescription(description);
       } catch (error) {
         console.error('Error fetching meal details:', error);
-        setErrorMessage('Error fetching meal details');
+        setErrorMessage("Oops! Something went wrong. Please try again later!");
       }
     };
 
