@@ -1,19 +1,26 @@
-.progress-display {
+
+
+/* .progress {
+  margin: 10px 10px 10px 0px;
+} */
+
+ .progress-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   justify-content: center;
   padding: 20px;
-  margin: 20px;
-  background-color: white;
+  margin: 120px 75px 20px 75px;
+  background-color: #041c32;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: #ecb365;
 }
 
-.progress-display div {
+.progress-item {
   text-align: center;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: #04293a;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -21,6 +28,30 @@
 .progress-display h2 {
   font-size: 1.2em;
   margin-bottom: 20px;
-  color: #172b4d;
+  color: #ecb365;
 }
 
+.progress-display p {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #ecb365;
+}
+
+.progress-display button:hover {
+  background-color: #041c32;
+}
+.progress button {
+  background-color: #041c32;
+  color: #ecb365;
+  border: 2px solid #ecb365;
+  padding: 10px 20px;
+  margin: 20px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.progress button:hover {
+  background-color: #F2613F;
+  color: #ecb365;
+}

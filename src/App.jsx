@@ -63,7 +63,7 @@ function App() {
         />
 
         <Route
-          path="/your-meals"
+          path="P"
           element={
             <IsPrivate>
               <YourMealPage />
