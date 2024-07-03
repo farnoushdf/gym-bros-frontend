@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './RoutinePage.css';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const RoutinePage = () => {
@@ -36,15 +38,20 @@ const RoutinePage = () => {
     }
 
     return (
-        <div>
-            <h1>Routines List</h1>
-            <ul>
+        <div className="routine-page">
+            <h1 className="page-title">Keep motivated, bro! Stay consistent and achieve your goals!</h1>
+            <div className="routine-cards">
                 {routines.map(routine => (
-                    <p key={routine._id}>
-                        <Link to={`/your-routines/${routine._id}`}>{routine.name}</Link>
-                    </p>
+                    <div className="routine-card" key={routine._id}>
+                        <h2 className="routine-name">{routine.name}</h2>
+                        <p><strong>Workout:</strong> {routine.workout}</p>
+                        <p><strong>Body Part:</strong> {routine.bodyPart}</p>
+                        <p><strong>Total Duration:</strong> {routine.totalDuration} mins</p>
+                        <p><strong>Date Added:</strong> {new Date(routine.date).toLocaleDateString()}</p>
+                        <Link className="routine-link" to={`/your-routines/${routine._id}`}>View Details</Link>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

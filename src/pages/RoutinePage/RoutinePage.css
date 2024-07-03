@@ -1,4 +1,4 @@
-.meal-page {
+.routine-page {
     max-width: 1800px;
     margin: 0 auto;
     padding: 70px;
@@ -16,7 +16,6 @@
     padding: 10px;
     margin-top: 50px;
   }
-
   
   .page-title {
     text-align: center;
@@ -24,13 +23,13 @@
     margin-bottom: 20px;
   }
   
-  .meal-cards {
+  .routine-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
   }
   
-  .meal-card {
+  .routine-card {
     background-color: #f4f4f9;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -41,16 +40,16 @@
     text-align: center;
   }
   
-  .meal-card h2 {
+  .routine-card h2 {
     color: #ECB365;
     margin-bottom: 10px;
   }
   
-  .meal-card p {
+  .routine-card p {
     margin: 5px 0;
   }
   
-  .meal-link {
+  .routine-link {
     display: block;
     margin-top: 15px;
     padding: 10px;
@@ -61,7 +60,7 @@
     transition: background-color 0.3s, color 0.3s;
   }
   
-  .meal-link:hover {
+  .routine-link:hover {
     background-color: #041C32;
     color: #ECB365;
   }

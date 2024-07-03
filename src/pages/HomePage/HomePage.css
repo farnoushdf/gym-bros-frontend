@@ -86,7 +86,6 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
-<<<<<<< HEAD
   }
   
   .homepage .auth-links button:hover {
@@ -213,11 +212,3 @@
     }
   }
   
-=======
-}
-
-.homepage .auth-links a:hover {
-    background-color: #ECB365;
-    color: #041C32;
-}
->>>>>>> origin/fndf08
