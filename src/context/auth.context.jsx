@@ -8,19 +8,19 @@ const AuthContextWrapper = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(null); // State for alert message
   const nav = useNavigate();
 
-  const storedToken = (token) => { 
+  const storedToken = (token) => {
     localStorage.setItem("authToken", token);
-  }; 
+  };
 
   const authenticateUser = async () => {
     const tokenFromLocalStorage = localStorage.getItem("authToken");
     try {
       const { data } = await axios.get("http://localhost:5005/auth/verify", {
         headers: { authorization: `Bearer ${tokenFromLocalStorage}` },
-      }); 
-      console.log("verify ", data);
+      });
       setCurrentUser(data.user);
       setIsLoading(false);
       setIsLoggedIn(true);
@@ -37,12 +37,23 @@ const AuthContextWrapper = ({ children }) => {
     nav("/login");
     setCurrentUser(null);
     setIsLoggedIn(false);
-    console.log("user was logged out successfully");
+    setAlertMessage("Logout successful"); 
   };
 
   useEffect(() => {
     authenticateUser();
   }, []);
+
+ 
+  useEffect(() => {
+    let alertTimer;
+    if (alertMessage) {
+      alertTimer = setTimeout(() => {
+        setAlertMessage(null);
+      }, 3000); 
+    }
+    return () => clearTimeout(alertTimer);
+  }, [alertMessage]);
 
   return (
     <AuthContext.Provider
@@ -53,6 +64,7 @@ const AuthContextWrapper = ({ children }) => {
         isLoading,
         isLoggedIn,
         authenticateUser,
+        alertMessage, 
       }}
     >
       {children}

@@ -46,7 +46,6 @@ const SignupPage = () => {
 
   return (
     <div className="SignupPage">
-      <Modal show={showModal} handleClose={() => setShowModal(false)}>
         <h2>Sign Up</h2>
         <form onSubmit={handleSignupSubmit}>
           <label>Name:</label>
@@ -69,7 +68,6 @@ const SignupPage = () => {
           Already have an account? <br />
           <Link to="/login">Login</Link>
         </p>
-      </Modal>
       <form onSubmit={handleSignupSubmit}>
         <button type="submit" onClick={() => setShowModal(true)}>
           Sign Up

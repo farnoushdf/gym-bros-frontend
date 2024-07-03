@@ -41,7 +41,6 @@ const LoginPage = () => {
 
   return (
     <div className="LoginPage">
-    <Modal show={showModal} handleClose={() => setShowModal(false)}>
 
       <h2>Login</h2>
       <form onSubmit={handleLoginSubmit}>
@@ -57,7 +56,6 @@ const LoginPage = () => {
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <p>Don't have an account yet? <br /> 
       <Link to={"/signup"}>Sign Up</Link></p>
-      </Modal>
       <form onSubmit={handleLoginSubmit}>
         <button type="submit" onClick={() => setShowModal(true)}>
           Login

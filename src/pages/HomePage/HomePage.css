@@ -1,0 +1,214 @@
+/* HomePage container */
+.homepage {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 200px;
+    padding-top: 100px;
+    text-align: center;
+    color: #ECB365; /* Light orange */
+    background: linear-gradient(-45deg, #000204, #04293A, #064663, #ECB365);
+    background-size: 400% 400%;
+    animation: gradientAnimation 15s ease infinite;
+  }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .homepage h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #FFFFFF; 
+  }
+
+  .homepage img {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    max-height: 300px; 
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .homepage .content-section {
+    margin-top: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .homepage .card {
+    background-color: rgba(236, 210, 210, 0.1); 
+    padding: 20px;
+    margin: 10px;
+    flex: 1 1 300px; 
+    max-width: calc(50% - 20px); 
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+  }
+  
+  .homepage .card h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+  }
+  
+  .homepage .card p {
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #FFFFFF; 
+  }
+  
+ 
+  .homepage .auth-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .homepage .auth-links button {
+    text-decoration: none;
+    color: #ECB365;
+    background-color: #041C32;
+    border: none;
+    padding: 12px 24px;
+    margin: 0 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .homepage .auth-links button:hover {
+    background-color: #ECB365;
+    color: #041C32;
+  }
+  
+  /* Form container */
+  .homepage .form-container {
+    max-width: 600px; /* Adjust maximum width of the form */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Form styles */
+  .homepage form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .homepage form label {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: #000000; /* White */
+  }
+  
+  .homepage form input[type="text"],
+  .homepage form input[type="email"],
+  .homepage form input[type="password"],
+  .homepage form input[type="file"],
+  .homepage form textarea {
+    width: 100%; /* Make inputs fill the container */
+    padding: 12px; /* Adjust padding as needed */
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+    color: #090808; /* White */
+    outline: none;
+  }
+  
+  .homepage form textarea {
+    min-height: 120px;
+  }
+  
+  .homepage form button[type="submit"] {
+    width: 100%; /* Make button fill the container */
+    background-color: #ECB365;
+    color: #041C32;
+    border: none;
+    padding: 12px;
+    margin-top: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .homepage form button[type="submit"]:hover {
+    background-color: #041C32;
+    color: #ECB365;
+  }
+  
+  /* Error message styles */
+  .homepage .error-message {
+    color: #FF4C4C; /* Red */
+    margin-top: 10px;
+  }
+  
+  /* Success message styles */
+  .homepage .success-message {
+    color: #78FF78; /* Light green */
+    margin-top: 10px;
+  }
+  
+  /* Responsive design */
+  @media screen and (max-width: 900px) {
+    .homepage {
+      padding-top: 80px;
+    }
+  
+    .homepage h1 {
+      font-size: 2.5rem;
+    }
+  
+    .homepage .auth-links button {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  
+    .homepage .card {
+      max-width: 100%; /* Cards take up full width on smaller screens */
+      flex-basis: 100%; /* Each card takes full width on smaller screens */
+      margin: 10px 0; /* Adjust margin for smaller screens */
+    }
+  
+    .homepage .form-container {
+      max-width: 100%; /* Adjust maximum width for smaller screens */
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    .homepage {
+      padding: 10px;
+      padding-top: 60px;
+    }
+  
+    .homepage h1 {
+      font-size: 2rem;
+    }
+  
+    .homepage .auth-links {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .homepage .auth-links button {
+      margin: 10px 0;
+    }
+  }
+  
