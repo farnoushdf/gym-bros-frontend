@@ -47,9 +47,8 @@ const MealDetailsPage = () => {
       <p>Description: {meal.description}</p>
       <p>Calories: {meal.calories}</p>
       <p>Ingredients: {meal.ingredients.join(", ")}</p>
-      <p>Added on: {new Date(meal.date).toLocaleDateString()}</p>
       {meal.image && <img src={meal.image} alt={meal.name} />}
-      <button onClick={() => navigate("/your-routines")}>
+      <button onClick={() => navigate("/meals")}>
         <FontAwesomeIcon icon={faArrowLeft} />
       </button>
     </div>

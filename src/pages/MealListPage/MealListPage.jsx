@@ -12,7 +12,7 @@ const MealListPage = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch(`${API_URL}/data-meals/all-data-meals`);
+        const response = await fetch(`${API_URL}/data-meal/all-data-meals`);
         if (response.ok) {
           const json = await response.json();
           setMeals(json);
