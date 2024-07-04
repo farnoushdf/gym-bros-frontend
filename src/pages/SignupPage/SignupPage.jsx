@@ -7,6 +7,7 @@ import './SignupPage.css';
 import Confetti from 'react-canvas-confetti';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
@@ -39,7 +40,7 @@ const SignupPage = () => {
           'Content-Type': 'multipart/form-data'
         }
       };
-      await axios.post('http://localhost:5005/auth/signup', formData, config);
+      await axios.post(`${API_URL}/auth/signup`, formData, config);
       setShowModal(true);
       setTimeout(() => navigate('/login'), 2500); 
     } catch (err) {

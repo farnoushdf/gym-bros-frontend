@@ -35,7 +35,7 @@ const CreateRoutine = ({ setOpen, onRoutineCreated, selectedDate }) => {
       workout,
       bodyPart,
       totalDuration,
-      date: selectedDate.toISOString().split('T')[0],
+      date: new Date(selectedDate).toISOString(), // Ensure the date is correctly formatted
       //userId: currentUser._id
     };
     console.log(newRoutine);

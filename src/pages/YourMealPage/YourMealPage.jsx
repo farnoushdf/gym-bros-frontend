@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './YourMealPage.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,22 +34,23 @@ const YourMealPage = () => {
     }
 
     if (error) {
-        return <p>"Oops! Something went wrong. Please try again later!"</p>;
+        return <p>Oops! Something went wrong. Please try again later!</p>;
     }
 
     return (
-        <div>
-            <h1>Meal List</h1>
-            <ul>
+        <div className="meal-page">
+            <h1 className="page-title">What Have You Been Eating So Far?</h1>
+            <div className="meal-cards">
                 {meals.map(meal => (
-                    <p key={meal._id}>
-                        <Link to={`/your-meals/${meal._id}`}>{meal.name}</Link>
-                        <span >
-                            Added on {new Date(meal.date).toLocaleDateString()}
-                        </span>
-                    </p>
+                    <div className="meal-card" key={meal._id}>
+                        <h2 className="meal-name">{meal.name}</h2>
+                        <p><strong>Description:</strong> {meal.description}</p>
+                        <p><strong>Ingredients:</strong> {meal.ingredients.join(', ')}</p>
+                        <p><strong>Date Added:</strong> {new Date(meal.date).toLocaleDateString()}</p>
+                        <Link className="meal-link" to={`/your-meals/${meal._id}`}>View Details</Link>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

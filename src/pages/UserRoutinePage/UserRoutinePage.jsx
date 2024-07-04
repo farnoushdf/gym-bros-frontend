@@ -120,6 +120,11 @@ const UserRoutinePage = () => {
   const filteredMeals = filterEntriesByDate(meals);
   const filteredRoutines = filterEntriesByDate(routines);
 
+  console.log("Meals:", meals);  // Debug log
+  console.log("Filtered Meals:", filteredMeals);  // Debug log
+  console.log("Routines:", routines);  // Debug log
+  console.log("Filtered Routines:", filteredRoutines);  // Debug log
+
   if (isLoading) return <div>Loading...</div>;
   if (!currentUser) return <div>Please log in to view your routines.</div>;
 

@@ -12,7 +12,7 @@ const MealListPage = () => {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch(`${API_URL}/data-meal/all-data-meals`);
+        const response = await fetch(`${API_URL}/data-meals/all-data-meals`);
         if (response.ok) {
           const json = await response.json();
           setMeals(json);
@@ -42,7 +42,11 @@ const MealListPage = () => {
       <h1>Meal List</h1>
       <div className="meal-list">
         {meals.map((meal) => (
-          <Link to={`/meals/${meal._id}`} key={meal._id} className="meal-item">
+          <Link
+            to={`/meals/${meal._id}`}
+            key={meal._id}
+            className="meal-item"
+          >
             <div>
               <h2>{meal.name}</h2>
               {meal.image && <img src={meal.image} alt={meal.name} />}

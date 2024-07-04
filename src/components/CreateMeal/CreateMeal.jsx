@@ -24,16 +24,14 @@ const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
       description,
       calories: Number(calories),
       ingredients,
-      date: selectedDate.toISOString().split('T')[0],
+      date: new Date(selectedDate).toISOString(), // Ensure the date is correctly formatted
     };
 
     try {
       setIsDisabled(true);
       const response = await mealService.createMeal(newMeal, currentUser._id);
-      //if (response.status === 201) {
-        onMealCreated(response.data);
-        setOpen(false);
-      //}
+      onMealCreated(response.data);
+      setOpen(false);
     } catch (error) {
       setErrorMessage(error.response?.data?.message || 'Error creating meal');
       console.log(error);
@@ -57,7 +55,7 @@ const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
   return (
     <div>
       <div>
-      <FontAwesomeIcon icon={faUtensils} />
+        <FontAwesomeIcon icon={faUtensils} />
         <form onSubmit={handleSubmit}>
           <div>
             <label>Meal Name:</label>
