@@ -12,7 +12,7 @@
     bottom: 0;
     left: 0;
     z-index: 1000;
-    /* Ensure the footer is above other content */
+  
 }
 
 .footer-links {
@@ -59,21 +59,20 @@
     margin-top: 10px;
 }
 
-/* Additional styles to ensure the footer is always at the bottom */
+
 body {
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* Ensure the body takes full viewport height */
+   
 }
 
 .content {
     flex: 1;
-    /* Allow the content to take remaining space */
     padding-top: 80px;
-    /* Adjust as necessary based on your navbar height */
+
 }
 
 .navbar {
@@ -88,5 +87,5 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
-    /* Ensure the navbar is above other content */
+    
 }

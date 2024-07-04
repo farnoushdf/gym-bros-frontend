@@ -24,7 +24,7 @@ const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
       description,
       calories: Number(calories),
       ingredients,
-      date: new Date(selectedDate).toISOString(), // Ensure the date is correctly formatted
+      date: new Date(selectedDate).toISOString(), 
     };
 
     try {

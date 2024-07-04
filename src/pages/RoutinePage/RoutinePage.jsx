@@ -8,7 +8,7 @@ const RoutinePage = () => {
     const [routines, setRoutines] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [editRoutineId, setEditRoutineId] = useState(null); // State to manage the routine being edited
+    const [editRoutineId, setEditRoutineId] = useState(null); 
     const [editedRoutine, setEditedRoutine] = useState({
         name: '',
         workout: '',

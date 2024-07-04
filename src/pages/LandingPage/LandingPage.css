@@ -1,4 +1,4 @@
-/* LandingPage container */
+
 .landing-page {
     display: flex;
     justify-content: center;
@@ -37,7 +37,7 @@
   }
   
   .content button:hover {
-    background-color: #064663; /* Dark cyan */
+    background-color: #064663; 
   }
 
   @media (max-width: 1024px) {
@@ -86,7 +86,7 @@
       padding: 8px 14px;
     }
   }
-  /* Background gradient animation */
+
   @keyframes gradientAnimation {
     0% {
       background-position: 0% 50%;
