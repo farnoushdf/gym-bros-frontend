@@ -74,13 +74,20 @@ body {
     color: #ECB365;
 }
 
+/* Message styles */
+h4 {
+    margin-top: 20px;
+    font-size: 1.4em;
+    color: #ECB365;
+}
+
 /* Button styles */
 .progress button {
     background-color: #041c32;
     color: #ECB365;
     border: 2px solid #ECB365;
     padding: 10px 20px;
-    margin: 20px 0;
+    margin: 20px 10px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
@@ -90,11 +97,29 @@ body {
     background-color: #F2613F;
 }
 
+/* No target/progress message styles */
+.no-target-message,
+.no-progress-message {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.no-target-message p,
+.no-progress-message p {
+    font-size: 1.2em;
+    color: #ECB365;
+}
+
+.progress h4 {
+    margin-top: 50px; /* Adjust as needed */
+    font-size: 1.4em;
+    color: #ECB365;
+}
+
 /* Responsive design */
 @media (max-width: 900px) {
     .progress-display {
         grid-template-columns: repeat(3, minmax(0, 1fr)); 
-       
     }
 }
 
@@ -113,4 +138,9 @@ body {
     .progress-display p {
         font-size: 0.8em;
     }
+}
+.progress-exceed-message {
+  color: red;
+  font-style: italic;
+  margin-top: 5px;
 }

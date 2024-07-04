@@ -8,9 +8,9 @@ const Navbar = () => {
   const { handleLogout, currentUser, alertMessage } = useContext(AuthContext);
   const isLandingPage = window.location.pathname === '/';
 
-   const firstLetter = currentUser
-     ? currentUser.username.charAt(0).toUpperCase()
-     : "";
+  //  const firstLetter = currentUser
+  //    ? currentUser.username.charAt(0).toUpperCase()
+  //    : "";
 
   return (
     !isLandingPage && (

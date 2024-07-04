@@ -69,7 +69,7 @@ function App() {
               <YourMealPage />
             </IsPrivate>
           }
-         /> 
+        />
 
         <Route
           path="/your-meals/:id"
@@ -78,13 +78,13 @@ function App() {
               <YourMealDetailsPage />
             </IsPrivate>
           }
-         /> 
-      
+        />
+
         <Route
           path="/your-routines"
           element={
             <IsPrivate>
-              <RoutinePage/>
+              <RoutinePage />
             </IsPrivate>
           }
         />
@@ -96,29 +96,29 @@ function App() {
             </IsPrivate>
           }
         />
-        <Route 
-          path="/progress" 
+        <Route
+          path="/progress"
           element={
             <IsPrivate>
               <ProgressPage />
             </IsPrivate>
-          } 
-        />
-        <Route 
-          path="/set-targets" 
-          element={
-          <IsPrivate>
-            <SetTargetPage />
-          </IsPrivate>
           }
         />
-        <Route 
-        path="/update-progress" 
-        element={
-          <IsPrivate>
-            <UpdateProgressPage />
-           </IsPrivate>
-          } 
+        <Route
+          path="/set-targets"
+          element={
+            <IsPrivate>
+              <SetTargetPage />
+            </IsPrivate>
+          }
+        />
+        <Route
+          path="/update-progress"
+          element={
+            <IsPrivate>
+              <UpdateProgressPage />
+            </IsPrivate>
+          }
         />
         <Route path="/workouts-list" element={<WorkoutListPage />} />
         <Route path="/workouts/:id" element={<WorkoutDetailsPage />} />
