@@ -24,7 +24,7 @@ const UserRoutinePage = () => {
   const [editMealId, setEditMealId] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem('authToken');
 
     const fetchUserDetails = async () => {
       try {
@@ -34,7 +34,7 @@ const UserRoutinePage = () => {
         setRoutines(data.currentRoutine);
         setMeals(data.currentMeal);
       } catch (error) {
-        console.error("Error fetching user details:", error);
+        console.error('Error fetching user details:', error);
       }
     };
 
@@ -94,7 +94,7 @@ const UserRoutinePage = () => {
       await axios.delete(`${API_URL}/meals/delete-meal/${mealId}`);
       setMeals((prevMeals) => prevMeals.filter((meal) => meal._id !== mealId));
     } catch (error) {
-      console.error("Error deleting meal:", error);
+      console.error('Error deleting meal:', error);
     }
   };
 
@@ -105,7 +105,7 @@ const UserRoutinePage = () => {
         prevRoutines.filter((routine) => routine._id !== routineId)
       );
     } catch (error) {
-      console.error("Error deleting routine:", error);
+      console.error('Error deleting routine:', error);
     }
   };
 
@@ -119,11 +119,6 @@ const UserRoutinePage = () => {
 
   const filteredMeals = filterEntriesByDate(meals);
   const filteredRoutines = filterEntriesByDate(routines);
-
-  //console.log("Meals:", meals);  
-  //console.log("Filtered Meals:", filteredMeals);  
-  //console.log("Routines:", routines);  
-  //console.log("Filtered Routines:", filteredRoutines);  
 
   if (isLoading) return <div>Loading...</div>;
   if (!currentUser) return <div>Please log in to view your routines.</div>;
@@ -145,7 +140,7 @@ const UserRoutinePage = () => {
 
           <div className="user-entries">
             <h2 className="entries-title">Your Meals and Routines for... </h2>
-              <h2>{selectedDate.toDateString()}</h2>
+            <h2>{selectedDate.toDateString()}</h2>
             <div className="entries">
               <div className="entries-section">
                 <h3>Meals 🌯🍱🍜🍲</h3>
@@ -169,7 +164,7 @@ const UserRoutinePage = () => {
                   {filteredRoutines.length > 0 ? (
                     filteredRoutines.map((routine) => (
                       <li key={routine._id}>
-                        {routine.name}{" "}
+                        {routine.name}{' '}
                         <button className="btn btn-edit" onClick={() => handleEditRoutine(routine._id)}>Edit</button>
                         <button className="btn btn-delete" onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
                       </li>
@@ -225,10 +220,10 @@ const UserRoutinePage = () => {
           </div>
         </Modal>
       )}
-      <div className="link-container">
 
-      <Link className="link1" to="/your-meals">╰┈➤ Check All Added Meals</Link>
-      <Link className="link1" to="/your-routines">╰┈➤ Check All Added Routines</Link>
+      <div className="link-container">
+        <Link className="link1" to="/your-meals">╰┈➤ Check All Added Meals</Link>
+        <Link className="link1" to="/your-routines">╰┈➤ Check All Added Routines</Link>
       </div>
     </div>
   );

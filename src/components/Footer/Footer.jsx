@@ -25,10 +25,7 @@ const Footer = () => {
                       "linear-gradient(to bottom right,#ECB365, #5B86E5)",
                   }}
                 >
-                  <img
-                    src={routineLogo}
-                    alt="Routine"
-                    className="footer-logo"
+                 <img src={routineLogo} alt="Routine" className="footer-logo"
                   />
                   <span> Routine</span>
                 </div>
