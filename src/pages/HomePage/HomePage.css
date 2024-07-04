@@ -1,11 +1,11 @@
-/* HomePage container */
+
 .homepage {
     max-width: 1800px;
     margin: 0 auto;
     padding: 200px;
-    padding-top: 190px;
+    padding-top: 150px;
     text-align: center;
-    color: #ECB365; /* Light orange */
+    color: #ECB365; 
     background: linear-gradient(-45deg, #000204, #04293A, #064663, #ECB365);
     background-size: 400% 400%;
     animation: gradientAnimation 15s ease infinite;
@@ -93,17 +93,16 @@
     color: #041C32;
   }
   
-  /* Form container */
+
   .homepage .form-container {
-    max-width: 600px; /* Adjust maximum width of the form */
+    max-width: 600px; 
     margin: 0 auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
+    background-color: rgba(255, 255, 255, 0.1); 
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
-  
-  /* Form styles */
+
   .homepage form {
     display: flex;
     flex-direction: column;
@@ -113,7 +112,7 @@
   .homepage form label {
     font-size: 1rem;
     margin-bottom: 8px;
-    color: #000000; /* White */
+    color: #000000; 
   }
   
   .homepage form input[type="text"],
@@ -121,14 +120,14 @@
   .homepage form input[type="password"],
   .homepage form input[type="file"],
   .homepage form textarea {
-    width: 100%; /* Make inputs fill the container */
-    padding: 12px; /* Adjust padding as needed */
+    width: 100%; 
+    padding: 12px; 
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent white */
-    color: #090808; /* White */
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #090808;
     outline: none;
   }
   
@@ -137,7 +136,7 @@
   }
   
   .homepage form button[type="submit"] {
-    width: 100%; /* Make button fill the container */
+    width: 100%;
     background-color: #ECB365;
     color: #041C32;
     border: none;
@@ -154,19 +153,18 @@
     color: #ECB365;
   }
   
-  /* Error message styles */
+
   .homepage .error-message {
-    color: #FF4C4C; /* Red */
+    color: #FF4C4C; 
     margin-top: 10px;
   }
-  
-  /* Success message styles */
+ 
   .homepage .success-message {
-    color: #78FF78; /* Light green */
+    color: #78FF78;
     margin-top: 10px;
   }
   
-  /* Responsive design */
+ 
   @media screen and (max-width: 900px) {
     .homepage {
       padding-top: 80px;
@@ -182,13 +180,13 @@
     }
   
     .homepage .card {
-      max-width: 100%; /* Cards take up full width on smaller screens */
-      flex-basis: 100%; /* Each card takes full width on smaller screens */
-      margin: 10px 0; /* Adjust margin for smaller screens */
+      max-width: 100%; 
+      flex-basis: 100%; 
+      margin: 10px 0; 
     }
   
     .homepage .form-container {
-      max-width: 100%; /* Adjust maximum width for smaller screens */
+      max-width: 100%; 
     }
   }
   
