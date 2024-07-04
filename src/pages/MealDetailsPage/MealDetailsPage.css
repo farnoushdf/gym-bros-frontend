@@ -1,5 +1,4 @@
-/* Reset some default styles */
-body,
+
 h1,
 h2,
 p {
@@ -7,7 +6,6 @@ p {
     padding: 0;
 }
 
-/* Set a basic style for the body */
 body {
     font-family: Arial, sans-serif;
     background: linear-gradient(-45deg, #000204, #04293A, #064663, #ECB365);
@@ -29,10 +27,10 @@ body {
     }
 }
 
-/* Container for the Meal Details Page */
+
 .meal-details {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 60px auto 150px auto;
     padding: 100px 20px;
     text-align: center;
     color: #ECB365;

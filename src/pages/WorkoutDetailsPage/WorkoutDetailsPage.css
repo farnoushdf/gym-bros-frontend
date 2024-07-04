@@ -33,8 +33,8 @@ body {
 /* Container for the Workout Details Page */
 .workout-details {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 100px 20px;
+    margin: 60px auto 150px auto;
+    padding: 50px 20px;
     text-align: center;
     color: #ECB365;
     background-color: rgba(236, 210, 210, 0.1);

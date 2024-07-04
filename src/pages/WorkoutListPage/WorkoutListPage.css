@@ -30,7 +30,7 @@ body {
 .workout-list {
     max-width: 1800px;
     margin: 0 auto;
-    padding: 100px 20px;
+    padding: 100px 200px 200px 200px;
     text-align: center;
     color: #ECB365;
 }

@@ -38,7 +38,7 @@ const MealListPage = () => {
   }
 
   return (
-    <div>
+    <div className="meal-list-container">
       <h1>Meal List</h1>
       <div className="meal-list">
         {meals.map((meal) => (

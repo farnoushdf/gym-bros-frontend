@@ -1,3 +1,11 @@
+.meal-list-container {
+  margin: 70px 50px 200px 50px;
+}
+
+h1 {
+  text-align: center;
+}
+
 
 .meal-list-page {
   max-width: 1200px;
