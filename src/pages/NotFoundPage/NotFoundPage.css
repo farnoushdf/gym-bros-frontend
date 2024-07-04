@@ -1,0 +1,90 @@
+.not-found-container {
+    max-width: 600px;
+    margin: 70px auto;
+    padding: 50px;
+    text-align: center;
+  }
+  
+  .not-found-title {
+    font-size: 6rem;
+    color: #a60404;
+  }
+  
+  .not-found-message {
+    font-size: 1.5rem;
+    margin-top: 20px;
+    color: #f5f5f5;
+  }
+  
+  .not-found-suggestion {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #fff1f1;
+  }
+  
+  .not-found-link {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #ecb365;
+    color: #041c32;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .not-found-link:hover {
+    background-color: #ffb6c1;
+    color: #fff;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .not-found-container {
+      padding: 30px;
+    }
+  
+    .not-found-title {
+      font-size: 4rem;
+    }
+  
+    .not-found-message {
+      font-size: 1.2rem;
+      margin-top: 15px;
+    }
+  
+    .not-found-suggestion {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+  
+    .not-found-link {
+      margin-top: 20px;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .not-found-container {
+      padding: 20px;
+    }
+  
+    .not-found-title {
+      font-size: 3rem;
+    }
+  
+    .not-found-message {
+      font-size: 1rem;
+      margin-top: 10px;
+    }
+  
+    .not-found-suggestion {
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+  
+    .not-found-link {
+      margin-top: 15px;
+      padding: 6px 12px;
+    }
+  }
+  

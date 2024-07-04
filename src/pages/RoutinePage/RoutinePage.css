@@ -1,67 +1,189 @@
 .routine-page {
-    max-width: 1800px;
-    margin: 0 auto;
-    padding: 70px;
-    color: #041C32;
-    padding-bottom: 300px;
-  }
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 70px;
+  color: #041C32;
+  padding-bottom: 300px;
+}
 
-  footer {
-    position: relative;
-    bottom: 0;
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  background-color: #041C32;
+  color: #ECB365;
+  text-align: center;
+  padding: 10px;
+  margin-top: 50px;
+}
+
+.page-title {
+  text-align: center;
+  color: #c9c4be;
+  margin-bottom: 20px;
+}
+
+.routine-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.routine-card {
+  background-color: #f4f4f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.routine-card h2 {
+  color: #ECB365;
+  margin-bottom: 10px;
+}
+
+.routine-card p {
+  margin: 5px 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-edit {
+  background-color: #FFB6C1;
+  color: #041C32;
+}
+
+.btn-edit:hover {
+  background-color: #FF69B4;
+  color: #FFF;
+}
+
+.btn-delete {
+  background-color: #49251f;
+  color: #FFF;
+}
+
+.btn-delete:hover {
+  background-color: #FF4500;
+}
+
+.btn-save {
+  background-color: #4CAF50;
+  color: #FFF;
+  margin-top: 10px;
+}
+
+.btn-save:hover {
+  background-color: #45a049;
+}
+
+.btn-cancel {
+  background-color: #FFB6C1;
+  color: #041C32;
+  margin-top: 10px;
+}
+
+.btn-cancel:hover {
+  background-color: #FF69B4;
+}
+
+.edit-routine-form, .routine-card {
+  padding: 20px;
+}
+
+.edit-routine-form {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-routine-form h2 {
+  color: #ECB365;
+  text-align: center;
+}
+
+.edit-routine-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.edit-routine-form input, .edit-routine-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.edit-routine-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.edit-routine-form button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.routine-link {
+  display: block;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #ECB365;
+  color: #041C32;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.routine-link:hover {
+  background-color: #041C32;
+  color: #ECB365;
+}
+
+@media screen and (max-width: 1200px) {
+  .routine-card {
+    width: 45%;
+    margin: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .routine-card {
     width: 100%;
-    background-color: #041C32;
-    color: #ECB365;
-    text-align: center;
-    padding: 10px;
-    margin-top: 50px;
   }
-  
-  .page-title {
-    text-align: center;
-    color: #c9c4be;
-    margin-bottom: 20px;
-  }
-  
-  .routine-cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+}
+
+@media screen and (max-width: 480px) {
+  .routine-page {
+    padding: 30px;
+    padding-bottom: 200px;
   }
   
   .routine-card {
-    background-color: #f4f4f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    margin: 10px;
-    width: 300px;
-    text-align: center;
+    padding: 15px;
   }
-  
-  .routine-card h2 {
-    color: #ECB365;
-    margin-bottom: 10px;
-  }
-  
-  .routine-card p {
-    margin: 5px 0;
-  }
-  
-  .routine-link {
-    display: block;
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #ECB365;
-    color: #041C32;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .routine-link:hover {
-    background-color: #041C32;
-    color: #ECB365;
-  }
-  
+}

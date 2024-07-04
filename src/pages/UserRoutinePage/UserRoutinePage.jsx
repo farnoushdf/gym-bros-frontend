@@ -120,10 +120,10 @@ const UserRoutinePage = () => {
   const filteredMeals = filterEntriesByDate(meals);
   const filteredRoutines = filterEntriesByDate(routines);
 
-  console.log("Meals:", meals);  // Debug log
-  console.log("Filtered Meals:", filteredMeals);  // Debug log
-  console.log("Routines:", routines);  // Debug log
-  console.log("Filtered Routines:", filteredRoutines);  // Debug log
+  //console.log("Meals:", meals);  
+  //console.log("Filtered Meals:", filteredMeals);  
+  //console.log("Routines:", routines);  
+  //console.log("Filtered Routines:", filteredRoutines);  
 
   if (isLoading) return <div>Loading...</div>;
   if (!currentUser) return <div>Please log in to view your routines.</div>;
@@ -144,10 +144,11 @@ const UserRoutinePage = () => {
           </div>
 
           <div className="user-entries">
-            <h2 className="entries-title">Meals and Routines for {selectedDate.toDateString()}</h2>
+            <h2 className="entries-title">Your Meals and Routines for... </h2>
+              <h2>{selectedDate.toDateString()}</h2>
             <div className="entries">
               <div className="entries-section">
-                <h3>Meals</h3>
+                <h3>Meals 🌯🍱🍜🍲</h3>
                 <ul>
                   {filteredMeals.length > 0 ? (
                     filteredMeals.map((meal) => (
@@ -163,7 +164,7 @@ const UserRoutinePage = () => {
                 </ul>
               </div>
               <div className="entries-section">
-                <h3>Routines</h3>
+                <h3>Routines🏋🏻‍♂️💪🧘🏻‍♀️🚴‍♂️</h3>
                 <ul>
                   {filteredRoutines.length > 0 ? (
                     filteredRoutines.map((routine) => (
@@ -224,9 +225,11 @@ const UserRoutinePage = () => {
           </div>
         </Modal>
       )}
+      <div className="link-container">
 
-      <Link className="link" to="/your-meals">Check All Added Meals</Link>
-      <Link className="link" to="/your-routines">Check All Added Routines</Link>
+      <Link className="link1" to="/your-meals">╰┈➤ Check All Added Meals</Link>
+      <Link className="link1" to="/your-routines">╰┈➤ Check All Added Routines</Link>
+      </div>
     </div>
   );
 };

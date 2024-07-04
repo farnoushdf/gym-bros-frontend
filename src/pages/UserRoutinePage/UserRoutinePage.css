@@ -1,15 +1,17 @@
+
 .user-routine-page {
-  max-width: 1000px;
+  max-width: 1800px;
   margin: auto;
   padding: 200px;
   padding-top: 100px;
-  background-color: #f0f0f0;
+  background-color: rgba(4, 4, 4, 0.5);
 }
 
 .page-title {
   font-size: 28px;
   margin-bottom: 20px;
   text-align: center;
+  color: #040608;
 }
 
 .calendar-and-entries {
@@ -20,6 +22,9 @@
 .calendar-container {
   flex: 1;
   margin-right: 20px;
+  max-width: 500px;
+  margin-left: 200px;
+  padding-top: 40px;
 }
 
 .entries-container {
@@ -37,7 +42,7 @@
   color: white;
   border: none;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 10px;
   cursor: pointer;
   border-radius: 4px;
   margin-right: 10px;
@@ -48,21 +53,35 @@
   background-color: #d49e5a;
 }
 
-/* Specific button styles */
+
 .btn-add-meal {
-  background-color: #55a630; /* Green */
+  background-color: #55a630;
+  padding: 4px 10px;
+  font-size: 14px; 
+  border-radius: 8px;
+
 }
 
 .btn-add-routine {
-  background-color: #4a90e2; /* Blue */
+  background-color: #55a630;
+  padding: 4px 10px;
+  font-size: 14px; 
+  border-radius: 8px;
+
 }
 
 .btn-edit-routine {
-  background-color: #ed823f; /* Orange */
+  background-color: #3b4637;
+  padding: 4px 10px;
+  font-size: 14px; 
+  border-radius: 8px;
 }
 
 .btn-edit-meal {
-  background-color: #8a5be8; /* Purple */
+  background-color: #3b4637;
+  padding: 4px 10px;
+  font-size: 14px; 
+  border-radius: 8px;
 }
 
 .user-entries {
@@ -78,6 +97,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  color: #fffbfb;
 }
 
 .entries-section {
@@ -104,16 +124,26 @@
   font-size: 14px;
 }
 
-.link {
-  display: block;
-  text-align: center;
-  margin-top: 20px;
-  font-size: 16px;
-  color: #007bff;
+.link-container {
+  display: flex;
+  justify-content: center; 
+  margin-top: 20px; 
+  padding: 300px 80px; 
+
 }
 
-.link:hover {
-  text-decoration: underline;
+.link1, .link2 {
+  text-align: center;
+  margin: 0 60px;
+  font-size: 16px;
+  color: #ccced0; 
+  text-decoration: none; 
+}
+
+.link1:hover, .link2:hover {
+  background-color: #3b4637;
+  border-radius: 30px;
+
 }
 
 @media (max-width: 768px) {

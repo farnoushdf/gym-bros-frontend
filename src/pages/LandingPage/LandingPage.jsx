@@ -8,7 +8,7 @@ const LandingPage = () => {
         <h1>Welcome to GymBros!</h1>
         <p>Start your fitness journey here.</p>
         <Link to="/home">
-          <button>Get Started!</button>
+          <button>Get Started ⬅</button>
         </Link>
       </div>
     </div>
