@@ -61,7 +61,7 @@ const WorkoutListPage = () => {
           <option value="cardio">Cardio</option>
         </select>
 
-        <button onClick={handleSearch}>Search</button>
+        {/* <button onClick={handleSearch}>Search</button> */}
       </div>
 
       <div>

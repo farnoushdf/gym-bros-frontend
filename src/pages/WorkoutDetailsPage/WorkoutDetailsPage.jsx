@@ -30,11 +30,12 @@ const WorkoutDetailsPage = () => {
   return (
     <div className="workout-details">
       <h2>{workout.name}</h2>
-      <p>Type: {workout.type}</p>
-      <p>Muscle: {workout.muscle}</p>
-      <p>Equipment: {workout.equipment}</p>
-      <p>Difficulty: {workout.difficulty}</p>
-      <p>Instructions: {workout.instructions}</p>
+      <p><strong>Type:</strong> {workout.type}</p>
+      <p><strong>Muscle:</strong> {workout.muscle}</p>
+      <p><strong>Equipment:</strong> {workout.equipment}</p>
+      <p><strong>Difficulty:</strong> {workout.difficulty}</p>
+      <p><strong>Instructions:</strong><br/>{workout.instructions}</p>
+      <br />
       {workout.image && <img src={workout.image} alt={workout.name} />}
     </div>
   );
