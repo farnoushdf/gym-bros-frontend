@@ -34,7 +34,7 @@ const LoginPage = () => {
       })
       .then(() => {
         setTimeout(() => {
-          navigate("/progress");
+          navigate("/profile");
         }, 3000);
       })
       .catch((err) => {

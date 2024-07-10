@@ -12,28 +12,22 @@ const UpdateProgressPage = () => {
   const navigate = useNavigate();
   const [formState, setFormState] = useState({
     water: "",
-    weight: "",
     workout: "",
     sleep: "",
-    walk: "",
   });
 
   const [message, setMessage] = useState("");
 
   const units = {
     water: "ml",
-    weight: "kg",
     workout: "hours",
     sleep: "hours",
-    walk: "meters",
   };
 
   const limits = {
     water: 5000,
-    weight: 300,
     workout: 24,
     sleep: 24,
-    walk: 50000,
   };
 
   const handleSubmit = async (e) => {
@@ -60,8 +54,8 @@ const UpdateProgressPage = () => {
       setMessage("Progress updated successfully!");
       console.log("Post response:", response.data);
     } catch (error) {
-      console.error("Error posting progress:", error);
-      setMessage("Error posting progress.");
+      console.error("Error setting progress:", error);
+      setMessage("Error setting progress.");
     }
 
     navigate("/progress");
@@ -74,6 +68,24 @@ const UpdateProgressPage = () => {
       [name]: parseFloat(value) || "",
     }));
     setMessage("");
+  };
+
+  const handleResetProgress = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/updateProgress/create-progress`, {
+        userId: currentUser._id,
+      });
+      setMessage("Progress reset successfully!");
+      console.log("Reset response:", response.data);
+      setFormState({
+        water: "",
+        workout: "",
+        sleep: "",
+      });
+    } catch (error) {
+      console.error("Error resetting progress:", error);
+      setMessage("Error resetting progress.");
+    }
   };
 
   return (
@@ -98,6 +110,9 @@ const UpdateProgressPage = () => {
         ))}
 
         <Button type="submit">Update Progress</Button>
+        <Button variant="danger" onClick={handleResetProgress} className="ml-2">
+          Reset Progress
+        </Button>
       </Form>
     </div>
   );

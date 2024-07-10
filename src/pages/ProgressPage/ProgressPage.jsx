@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState, useContext } from "react";
 import "./ProgressPage.css";
 import { Link } from "react-router-dom";
@@ -14,18 +12,14 @@ const ProgressPage = () => {
   const { currentUser } = useContext(AuthContext);
   const [targets, setTargets] = useState({
     water: 0,
-    weight: 0,
     workout: 0,
     sleep: 0,
-    walk: 0,
   });
 
   const [progress, setProgress] = useState({
     water: 0,
-    weight: 0,
     workout: 0,
     sleep: 0,
-    walk: 0,
   });
 
   useEffect(() => {
@@ -55,39 +49,46 @@ const ProgressPage = () => {
       }
     };
 
-    fetchTargets();
-    fetchProgress();
+    if (currentUser) {
+      fetchTargets();
+      fetchProgress();
+    }
   }, [currentUser]);
 
   const units = {
     water: "ml",
-    weight: "kg",
     workout: "hours",
     sleep: "hours",
-    walk: "meters",
   };
 
-  const categories = ["Water", "Weight", "Workout", "Sleep", "Walk"];
+  const categories = ["Water", "Workout", "Sleep"];
 
-const calculatePercentage = (category) => {
-  const value = progress[category.toLowerCase()];
-  const target = targets[category.toLowerCase()];
+  const calculatePercentage = (category) => {
+    const value = progress[category.toLowerCase()];
+    const target = targets[category.toLowerCase()];
 
-  if (value && target) {
-    if (category === "Weight") {
-      if (target <= value) {
-        return (target / value) * 100;
-      } else {
-        // If weight loss exceeds target, show 0% progress
-        return 0;
-      }
-    } else {
+    if (value && target) {
       return (value / target) * 100;
+    } else {
+      return 0;
     }
-  } else {
-    return 0;
-  }
-};
+  };
+
+  const handleResetTargets = async () => {
+    try {
+      const response = await axios.post(`${API_URL}/progress/create-progress`, {
+        userId: currentUser._id,
+      });
+      setTargets({
+        water: 0,
+        workout: 0,
+        sleep: 0,
+      });
+      console.log("Reset targets response:", response.data);
+    } catch (error) {
+      console.error("Error resetting targets:", error);
+    }
+  };
 
   if (!currentUser) {
     return <div>Loading...</div>;
@@ -116,40 +117,21 @@ const calculatePercentage = (category) => {
               Target: {targets[category.toLowerCase()]}{" "}
               {units[category.toLowerCase()]}
             </p>
-            {category === "Weight" && progress.weight < targets.weight && (
-              <p className="progress-exceed-message">
-                You've lost more weight than your target!
-              </p>
-            )}
           </div>
         ))}
       </div>
-      {!hasTarget && (
-        <div className="no-target-message">
-          <p>Please set your targets to track progress.</p>
-          <Link to="/set-targets">
-            <button>Set Your Targets</button>
-          </Link>
-        </div>
-      )}
-      {hasTarget && !hasProgress && (
-        <div className="no-progress-message">
-          <p>Please update your progress to see the tracking.</p>
-          <Link to="/update-progress">
-            <button>Update Your Progress</button>
-          </Link>
-        </div>
-      )}
-      {hasTarget && hasProgress && (
-        <div className="buttons-container">
-          <Link to="/set-targets">
-            <button>Update Your Target</button>
-          </Link>
-          <Link to="/update-progress">
-            <button>Update Your Progress</button>
-          </Link>
-        </div>
-      )}
+      {/* Always display all buttons when user is authenticated */}
+      <div className="buttons-container">
+        <Link to="/set-targets">
+          <button>Set Your Targets</button>
+        </Link>
+        {hasTarget && (
+          <button onClick={handleResetTargets}>Reset Targets</button>
+        )}
+        <Link to="/update-progress">
+          <button>Update Your Progress</button>
+        </Link>
+      </div>
     </div>
   );
 };

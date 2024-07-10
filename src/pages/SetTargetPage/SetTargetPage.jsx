@@ -1,5 +1,4 @@
-
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SetTargetPage.css";
 import { Form, InputGroup, Button, Alert } from "react-bootstrap";
@@ -14,31 +13,24 @@ const SetTargetPage = () => {
 
   const [formState, setFormState] = useState({
     water: "",
-    weight: "",
     workout: "",
     sleep: "",
-    walk: "",
   });
 
   const [message, setMessage] = useState("");
 
   const units = {
     water: "ml",
-    weight: "kg",
     workout: "hours",
     sleep: "hours",
-    walk: "meters",
   };
 
   const limits = {
     water: 5000,
-    weight: 300,
     workout: 24,
     sleep: 24,
-    walk: 50000,
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -59,14 +51,13 @@ const SetTargetPage = () => {
       setFormState(response.data);
       setMessage("Targets set successfully!");
       console.log("Post response:", response.data);
-      navigate("/update-progress"); 
+      navigate("/progress");
     } catch (error) {
-      console.error("Error posting targets:", error);
-      setMessage("Error posting targets.");
+      console.error("Error setting targets:", error);
+      setMessage("Error setting your targets.");
     }
   };
 
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState((prevFormState) => ({
