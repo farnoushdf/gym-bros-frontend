@@ -30,6 +30,7 @@ const CreateMeal = ({ setOpen, onMealCreated, selectedDate }) => {
     try {
       setIsDisabled(true);
       const response = await mealService.createMeal(newMeal, currentUser._id);
+      // Update parent component's state
       onMealCreated(response.data);
       setOpen(false);
     } catch (error) {

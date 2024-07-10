@@ -1,39 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';  
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './YourMealPage.css';
+import { AuthContext } from "../../context/auth.context";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const YourMealPage = () => {
+    const { currentUser, isLoading } = useContext(AuthContext);
     const [meals, setMeals] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [editMealId, setEditMealId] = useState(null);
     const [editedMeal, setEditedMeal] = useState({
-        name: '', 
+        name: '',
         description: '',
         ingredients: []
     });
 
     useEffect(() => {
+        const token = localStorage.getItem("authToken");
+
         const fetchMeals = async () => {
             try {
-                const response = await axios.get(`${API_URL}/meals/all-meals`);
-                if (response.status === 200) {
-                    setMeals(response.data);
-                } else {
-                    setError("Oops! Something went wrong. Please try again later!");
-                }
+                const { data } = await axios.get(`${API_URL}/auth/profile`, {
+                    headers: { authorization: `Bearer ${token}` },
+                });
+                setMeals(data.currentMeal);
             } catch (error) {
                 setError("Oops! Something went wrong. Please try again later!");
             } finally {
                 setLoading(false);
             }
         };
-
-        fetchMeals();
-    }, []);
+        if (!isLoading && currentUser) {
+            fetchMeals();
+        }
+    }, [isLoading, currentUser]); 
 
     const handleDeleteMeal = async (mealId) => {
         try {
@@ -84,7 +87,7 @@ const YourMealPage = () => {
         const { name, value } = e.target;
         setEditedMeal(prevState => ({
             ...prevState,
-            [name]: value
+            [name]: name === 'ingredients' ? value.split(',').map(item => item.trim()) : value  // Corrected ingredients handling
         }));
     };
 
@@ -104,8 +107,6 @@ const YourMealPage = () => {
         return <p>Oops! Something went wrong. Please try again later!</p>;
     }
 
-
-
     return (
         <div className="meal-page">
             <h1 className="page-title">What Have You Been Eating So Far?</h1>
@@ -124,9 +125,9 @@ const YourMealPage = () => {
                                     <option value="Other">Other</option>
                                 </select>
                                 <label htmlFor="description">Description</label>
-                                <input type="text" id="description" name="description" value={editedMeal.description || ''} onChange={handleInputChange} placeholder="Description" />
+                                <input type="text" id="description" name="description" value={editedMeal.description} onChange={handleInputChange} placeholder="Description" />
                                 <label htmlFor="ingredients">Ingredients</label>
-                                <input type="text" id="ingredients" name="ingredients" value={editedMeal.ingredients.join(', ') || ''} onChange={handleInputChange} placeholder="Ingredients (comma separated)" />
+                                <input type="text" id="ingredients" name="ingredients" value={editedMeal.ingredients.join(', ')} onChange={handleInputChange} placeholder="Ingredients (comma separated)" />
                                 <button className="btn btn-save" onClick={handleSaveEditMeal}>Save</button>
                                 <button className="btn btn-cancel" onClick={handleCancelEditMeal}>Cancel</button>
                             </div>

@@ -1,198 +1,150 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import './RoutinePage.css';
+import { AuthContext } from "../../context/auth.context";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const RoutinePage = () => {
-  const [routines, setRoutines] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [editRoutineId, setEditRoutineId] = useState(null);
-  const [editedRoutine, setEditedRoutine] = useState({
-    name: '',
-    workout: '',
-    bodyPart: '',
-    totalDuration: 0,
-    imageUrl: null 
-  });
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-
-  useEffect(() => {
-    const fetchRoutines = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/routines/all-routines`);
-        if (response.status === 200) {
-          setRoutines(response.data);
-        } else {
-          setError("Oops! Something went wrong. Please try again later!");
-        }
-      } catch (error) {
-        setError("Oops! Something went wrong. Please try again later!");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRoutines();
-  }, []);
-
-  const handleDeleteRoutine = async (routineId) => {
-    try {
-      await axios.delete(`${API_URL}/routines/delete-routine/${routineId}`);
-      setRoutines(routines.filter(routine => routine._id !== routineId));
-    } catch (error) {
-      console.error("Error deleting routine:", error);
-    }
-  };
-
-  const handleEditRoutine = (routineId) => {
-    const routineToEdit = routines.find(routine => routine._id === routineId);
-    setEditedRoutine({
-      name: routineToEdit.name,
-      workout: routineToEdit.workout,
-      bodyPart: routineToEdit.bodyPart,
-      totalDuration: routineToEdit.totalDuration,
-      imageUrl: routineToEdit.imageUrl 
-    });
-    setEditRoutineId(routineId);
-  };
-
-  const handleCancelEditRoutine = () => {
-    setEditRoutineId(null);
-    setEditedRoutine({
-      name: '',
-      workout: '',
-      bodyPart: '',
-      totalDuration: 0,
-      imageUrl: null
-    });
-  };
-
-  const handleSaveEditRoutine = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('name', editedRoutine.name);
-      formData.append('workout', editedRoutine.workout);
-      formData.append('bodyPart', editedRoutine.bodyPart);
-      formData.append('totalDuration', editedRoutine.totalDuration);
-  
-      if (imageFile) {
-        formData.append('image', imageFile); 
-      } else {
-        formData.append('imageUrl', editedRoutine.imageUrl);
-      }
-  
-      const response = await axios.patch(`${API_URL}/routines/update-routine/${editRoutineId}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        }
-      });
-  
-      const fetchUpdatedRoutines = async () => {
-        try {
-          const updatedResponse = await axios.get(`${API_URL}/routines/all-routines`);
-          if (updatedResponse.status === 200) {
-            setRoutines(updatedResponse.data);
-          } else {
-            setError("Oops! Failed to fetch updated routines.");
-          }
-        } catch (error) {
-          setError("Oops! Something went wrong fetching updated routines.");
-        }
-      };
-  
-      await fetchUpdatedRoutines(); 
-  
-      
-      setEditRoutineId(null);
-      setEditedRoutine({
+    const { currentUser, isLoading } = useContext(AuthContext);
+    const [routines, setRoutines] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [editRoutineId, setEditRoutineId] = useState(null);
+    const [editedRoutine, setEditedRoutine] = useState({
         name: '',
         workout: '',
         bodyPart: '',
-        totalDuration: 0,
-        imageUrl: null
-      });
-      setImageFile(null);
-      setImagePreview(null);
-  
-    } catch (error) {
-      console.error("Error updating routine:", error);
+        totalDuration: 0
+    });
+
+    useEffect(() => {
+        const token = localStorage.getItem("authToken");
+
+        const fetchRoutines = async () => {
+            try {
+                const { data } = await axios.get(`${API_URL}/auth/profile`, {
+                    headers: { authorization: `Bearer ${token}` },
+                });
+                setRoutines(data.currentRoutine);
+            } catch (error) {
+                setError("Oops! Something went wrong. Please try again later!");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (!isLoading && currentUser) {
+            fetchRoutines();
+        }
+    }, [isLoading, currentUser]); 
+
+    const handleDeleteRoutine = async (routineId) => {
+        try {
+            await axios.delete(`${API_URL}/routines/delete-routine/${routineId}`);
+            setRoutines(routines.filter(routine => routine._id !== routineId));
+        } catch (error) {
+            console.error("Error deleting routine:", error);
+        }
+    };
+
+    const handleEditRoutine = (routineId) => {
+        const routineToEdit = routines.find(routine => routine._id === routineId);
+        setEditedRoutine({
+            name: routineToEdit.name,
+            workout: routineToEdit.workout,
+            bodyPart: routineToEdit.bodyPart,
+            totalDuration: routineToEdit.totalDuration
+        });
+        setEditRoutineId(routineId);
+    };
+
+    const handleCancelEditRoutine = () => {
+        setEditRoutineId(null);
+        setEditedRoutine({
+            name: '',
+            workout: '',
+            bodyPart: '',
+            totalDuration: 0
+        });
+    };
+
+    const handleSaveEditRoutine = async () => {
+        try {
+            const response = await axios.patch(`${API_URL}/routines/update-routine/${editRoutineId}`, editedRoutine);
+            const updatedRoutine = response.data;
+            const updatedRoutines = routines.map(routine =>
+                routine._id === updatedRoutine._id ? updatedRoutine : routine
+            );
+            setRoutines(updatedRoutines);
+            setEditRoutineId(null);
+            setEditedRoutine({
+                name: '',
+                workout: '',
+                bodyPart: '',
+                totalDuration: 0
+            });
+        } catch (error) {
+            console.error("Error updating routine:", error);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setEditedRoutine(prevState => ({
+            ...prevState,
+            [name]: name === 'totalDuration' ? Number(value) : value // Handle numeric input correctly
+        }));
+    };
+
+    if (loading) {
+        return <p>Loading...</p>;
     }
-  };
-    
-  const handleImageChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setImageFile(selectedFile);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(selectedFile);
+
+    if (error) {
+        return <p>Oops! Something went wrong. Please try again later!</p>;
     }
-  };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Oops! Something went wrong. Please try again later!</p>;
-  }
-
-  return (
-    <div className="routine-page">
-      <h1 className="page-title">Keep motivated, bro! Stay consistent and achieve your goals!</h1>
-      <div className="routine-cards">
-        {routines.map(routine => (
-          <div className="routine-card" key={routine._id}>
-            {editRoutineId === routine._id ? (
-              <div className="edit-routine-form">
-                <h2>Edit Routine</h2>
-                <label>Name</label>
-                <input type="text" value={editedRoutine.name} onChange={(e) => setEditedRoutine({ ...editedRoutine, name: e.target.value })} />
-                <label>Workout</label>
-                <input type="text" value={editedRoutine.workout} onChange={(e) => setEditedRoutine({ ...editedRoutine, workout: e.target.value })} />
-                <label>Body Part</label>
-                <input type="text" value={editedRoutine.bodyPart} onChange={(e) => setEditedRoutine({ ...editedRoutine, bodyPart: e.target.value })} />
-                <label>Total Duration (mins)</label>
-                <input type="number" value={editedRoutine.totalDuration} onChange={(e) => setEditedRoutine({ ...editedRoutine, totalDuration: e.target.value })} />
-
-                {imagePreview && (
-                  <img src={imagePreview} alt="Routine Preview" style={{ maxWidth: '100%', marginBottom: '10px' }} />
-                )}
-
-                <label>Image</label>
-                <input type="file" accept="image/*" onChange={handleImageChange} />
-
-                <div className="button-container">
-                  <button className="btn btn-save" onClick={handleSaveEditRoutine}>Save</button>
-                  <button className="btn btn-cancel" onClick={handleCancelEditRoutine}>Cancel</button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <h2 className="routine-name">{routine.name}</h2>
-                <p><strong>Workout:</strong> {routine.workout}</p>
-                <p><strong>Body Part:</strong> {routine.bodyPart}</p>
-                <p><strong>Total Duration:</strong> {routine.totalDuration} mins</p>
-                <p><strong>Date Added:</strong> {new Date(routine.date).toLocaleDateString()}</p>
-                {routine.imageUrl && (
-                  <img src={routine.imageUrl} alt="Routine" style={{ maxWidth: '100%', marginBottom: '10px' }} />
-                )}
-                <div className="button-container">
-                  <button className="btn btn-edit" onClick={() => handleEditRoutine(routine._id)}>Edit</button>
-                  <button className="btn btn-delete" onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
-                </div>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    return (
+        <div className="routine-page">
+            <h1 className="page-title">Keep motivated, bro! Stay consistent and achieve your goals!</h1>
+            <div className="routine-cards">
+                {routines.map(routine => (
+                    <div className="routine-card" key={routine._id}>
+                        {editRoutineId === routine._id ? (
+                            <div className="edit-routine-form">
+                                <h2>Edit Routine</h2>
+                                <label htmlFor="name">Name</label>
+                                <input type="text" id="name" name="name" value={editedRoutine.name} onChange={handleInputChange} />
+                                <label htmlFor="workout">Workout</label>
+                                <input type="text" id="workout" name="workout" value={editedRoutine.workout} onChange={handleInputChange} />
+                                <label htmlFor="bodyPart">Body Part</label>
+                                <input type="text" id="bodyPart" name="bodyPart" value={editedRoutine.bodyPart} onChange={handleInputChange} />
+                                <label htmlFor="totalDuration">Total Duration (mins)</label>
+                                <input type="number" id="totalDuration" name="totalDuration" value={editedRoutine.totalDuration} onChange={handleInputChange} />
+                                <div className="button-container">
+                                    <button className="btn btn-save" onClick={handleSaveEditRoutine}>Save</button>
+                                    <button className="btn btn-cancel" onClick={handleCancelEditRoutine}>Cancel</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <>
+                                <h2 className="routine-name">{routine.name}</h2>
+                                <p><strong>Workout:</strong> {routine.workout}</p>
+                                <p><strong>Body Part:</strong> {routine.bodyPart}</p>
+                                <p><strong>Total Duration:</strong> {routine.totalDuration} mins</p>
+                                <p><strong>Date Added:</strong> {new Date(routine.date).toLocaleDateString()}</p>
+                                <div className="button-container">
+                                    <button className="btn btn-edit" onClick={() => handleEditRoutine(routine._id)}>Edit</button>
+                                    <button className="btn btn-delete" onClick={() => handleDeleteRoutine(routine._id)}>Delete</button>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default RoutinePage;
