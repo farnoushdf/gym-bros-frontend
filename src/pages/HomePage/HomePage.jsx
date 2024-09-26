@@ -65,7 +65,7 @@ const HomePage = () => {
       .then(() => {
         console.log("Login successful");
         // nav("/profile");
-        navigate("/progress");
+        navigate("/profile");
       })
       .catch((err) => {
         console.log("Error logging in", err);

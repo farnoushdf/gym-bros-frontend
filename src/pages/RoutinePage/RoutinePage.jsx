@@ -93,7 +93,7 @@ const RoutinePage = () => {
         const { name, value } = e.target;
         setEditedRoutine(prevState => ({
             ...prevState,
-            [name]: name === 'totalDuration' ? Number(value) : value // Handle numeric input correctly
+            [name]: name === 'totalDuration' ? Number(value) : value 
         }));
     };
 
