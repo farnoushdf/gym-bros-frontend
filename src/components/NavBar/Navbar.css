@@ -10,14 +10,14 @@
 }
 
 .navbar-logo {
-  height: 40px;
+  height: 30px;
 }
 
 .navbar h1 {
   color: #ecb365;
   margin: 0;
   animation: fadeIn 5s forwards;
-  padding-left: 100px;
+  margin-left: 70px;
 }
 
 @keyframes fadeIn {
@@ -36,8 +36,8 @@
   border: none;
   cursor: pointer;
   font-size: 16px;
-  margin-left: 10px;
-  padding: 10px;
+  margin-left: 2px;
+  padding: 9px 15px;
   text-decoration: none;
   transition: background-color 0.3s;
 }
@@ -84,62 +84,48 @@
   margin-left: 10px;
 }
 
-/* Default visibility for auth-buttons */
-.auth-buttons {
-  display: flex;
-}
-
-/* Extra small devices (phones, less than 576px) */
 @media screen and (max-width: 575px) {
   .navbar {
-    display: none; /* Hide navbar for very small devices */
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
   }
 
+  /* Hide the GymBros name */
+  .navbar h1 {
+    display: none;
+  }
+
+  /* Hide sign-up and login buttons */
   .auth-buttons {
-    display: none; /* Hide auth-buttons for very small devices */
+    display: none !important;;
+  }
+
+  /* Keep the logo visible */
+  .navbar-logo {
+    height: 90px;
   }
 }
-
-/* Small devices (landscape phones, 576px and up to 767px) */
+/* Medium screens (tablets, 576px and up) */
 @media screen and (min-width: 576px) and (max-width: 767px) {
-  .navbar {
-    flex-direction: column;
-    height: auto;
-    padding: 10px 1vw;
-  }
-
-  .auth-buttons {
-    display: none; /* Hide auth-buttons for small devices */
-  }
-
   .navbar h1 {
-    padding-left: 0;
-    text-align: center;
+    font-size: 1.5rem;
+    padding-left: 10px;
   }
 
   .navbar-logo {
-    margin-top: 10px;
+    height: 5px;
   }
 
-  .navbar .username-logout {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-/* Medium devices (tablets, 768px and up) */
-@media screen and (min-width: 768px) {
   .auth-buttons {
-    display: flex; /* Show auth-buttons on larger screens */
+    display: none; /* Optional for medium-small devices */
   }
 }
 
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .navbar {
-    padding: 0 2vw;
-  }
-
+/* Large screens (768px and up) */
+@media screen and (min-width: 768px) {
   .navbar h1 {
+    font-size: 2rem;
     padding-left: 50px;
   }
 
@@ -147,60 +133,8 @@
     height: 50px;
   }
 
-  .navbar .username-button button {
-    width: 45px;
-    height: 45px;
+  .auth-buttons {
+    display: none;
   }
-
-  .navbar .logout {
-    font-size: 14px;
-  }
-}
-
-/* Large devices (desktops, 992px and up) */
-@media screen and (min-width: 992px) and (max-width: 1199px) {
-  .navbar {
-    padding: 0 3vw;
-  }
-
-  .navbar h1 {
-    padding-left: 70px;
-  }
-
-  .navbar-logo {
-    height: 60px;
-  }
-
-  .navbar .username-button button {
-    width: 50px;
-    height: 50px;
-  }
-
-  .navbar .logout {
-    font-size: 15px;
-  }
-}
-
-/* Extra large devices (large desktops, 1200px and up) */
-@media screen and (min-width: 1200px) {
-  .navbar {
-    padding: 0 4vw;
-  }
-
-  .navbar h1 {
-    padding-left: 100px;
-  }
-
-  .navbar-logo {
-    height: 70px;
-  }
-
-  .navbar .username-button button {
-    width: 55px;
-    height: 55px;
-  }
-
-  .navbar .logout {
-    font-size: 16px;
-  }
+  
 }

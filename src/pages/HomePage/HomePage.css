@@ -164,48 +164,100 @@
   }
   
  
-  @media screen and (max-width: 900px) {
+  @media screen and (max-width: 1600px) {
     .homepage {
-      padding-top: 80px;
+        padding: 200px;
+        padding-top: 120px;
     }
-  
+
     .homepage h1 {
-      font-size: 2.5rem;
+        font-size: 2.5rem;
     }
-  
-    .homepage .auth-links button {
-      padding: 10px 20px;
-      font-size: 14px;
-    }
-  
+
     .homepage .card {
       max-width: 100%; 
-      flex-basis: 100%; 
-      margin: 10px 0; 
-    }
-  
-    .homepage .form-container {
-      max-width: 100%; 
-    }
+      margin: 15px auto;
+      padding: 15px;
   }
-  
-  @media screen and (max-width: 600px) {
+}
+
+@media screen and (max-width: 1200px) {
     .homepage {
-      padding: 10px;
-      padding-top: 60px;
+        padding: 150px;
+        padding-top: 100px;
     }
-  
+
     .homepage h1 {
-      font-size: 2rem;
+        font-size: 2rem;
     }
-  
-    .homepage .auth-links {
-      flex-direction: column;
-      align-items: center;
+
+    .homepage .content-section {
+        flex-direction: column;
     }
-  
+
+    .homepage .card {
+        flex: 1 1 00%; /* Full width for cards */
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .homepage {
+        padding-top: 80px;
+        margin-top: 100px;
+    }
+
+    .homepage h1 {
+        font-size: 1.8rem;
+    }
+
+    .homepage .card {
+        max-width: 100%; 
+        margin: 15px auto;
+        padding: 15px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .homepage {
+        padding: 20px;
+        padding-top: 60px;
+        padding-bottom: 60px;
+    }
+
+    .homepage h1 {
+        font-size: 1.5rem;
+    }
+
+    .homepage .card {
+        padding: 10px;
+        margin: 10px 0;
+        text-align: justify; /* Stretch text */
+    }
+
     .homepage .auth-links button {
-      margin: 10px 0;
+        font-size: 14px;
+        margin: 10px 0;
     }
-  }
-  
+}
+
+@media screen and (max-width: 400px) {
+    .homepage {
+        padding: 10px;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .homepage h1 {
+        font-size: 1.2rem;
+    }
+
+    .homepage .card {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .homepage .auth-links button {
+        font-size: 12px;
+        padding: 8px 16px;
+    }
+}

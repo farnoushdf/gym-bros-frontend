@@ -76,7 +76,9 @@
   
   @media (max-width: 768px) {
     .SignupPage {
-      padding: 10px;
+      margin-top: 190px;
+      padding: 70px;
+      margin-bottom: 130px;
     }
   
     .SignupPage input[type="text"],
@@ -101,7 +103,7 @@
     }
   
     .SignupPage form {
-      padding: 10px;
+      padding: 30px;
     }
   
     .SignupPage input[type="text"],

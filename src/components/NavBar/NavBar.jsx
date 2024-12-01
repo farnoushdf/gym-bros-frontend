@@ -54,14 +54,14 @@ const Navbar = () => {
             </div>
           </div>
         ) : (
-          <div className="username-logout">
-            <Link to="/signup" className="auth-buttons">
-              <button>Sign Up</button>
-            </Link>
-            <Link to="/login" className="auth-buttons">
-              <button>Login</button>
-            </Link>
-          </div>
+<div className="auth-buttons">
+  <Link to="/signup">
+    <button>Sign Up</button>
+  </Link>
+  <Link to="/login">
+    <button>Login</button>
+  </Link>
+</div>
         )}
       </nav>
     )
